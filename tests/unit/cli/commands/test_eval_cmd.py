@@ -290,3 +290,75 @@ class TestEvalCommand:
         assert result.exit_code == 0
         # Starting message should be present
         assert "Starting evaluation" in result.output
+
+
+class TestEvalCommandEvalPortExport:
+    """Tests for the --export-evalport flag"""
+
+    def test_export_flag_runs_the_export(self, runner, test_config_file, mocker):
+        """Test --export-evalport exports after a successful run"""
+        mocker.patch("evaluation.run.main")
+        mock_export = mocker.patch(
+            "evaluation.evalport_bridge.export_results",
+            return_value=[Path("/results/evalport/suite.suite.json")],
+        )
+
+        result = runner.invoke(eval_cmd, [str(test_config_file), "--export-evalport"])
+
+        assert result.exit_code == 0
+        mock_export.assert_called_once_with(str(test_config_file), pass_threshold=0.5)
+        assert "Wrote" in result.output
+
+    def test_no_export_without_the_flag(self, runner, test_config_file, mocker):
+        """Test the export does not run unless requested"""
+        mocker.patch("evaluation.run.main")
+        mock_export = mocker.patch("evaluation.evalport_bridge.export_results")
+
+        result = runner.invoke(eval_cmd, [str(test_config_file)])
+
+        assert result.exit_code == 0
+        mock_export.assert_not_called()
+
+    def test_custom_pass_threshold_is_forwarded(self, runner, test_config_file, mocker):
+        """Test --pass-threshold reaches the exporter"""
+        mocker.patch("evaluation.run.main")
+        mock_export = mocker.patch(
+            "evaluation.evalport_bridge.export_results", return_value=[]
+        )
+
+        result = runner.invoke(
+            eval_cmd,
+            [str(test_config_file), "--export-evalport", "--pass-threshold", "0.8"],
+        )
+
+        assert result.exit_code == 0
+        mock_export.assert_called_once_with(str(test_config_file), pass_threshold=0.8)
+
+    def test_export_errors_are_reported(self, runner, test_config_file, mocker):
+        """Test export failures exit with a clear message"""
+        mocker.patch("evaluation.run.main")
+        mocker.patch(
+            "evaluation.evalport_bridge.export_results",
+            side_effect=ValueError("no evaluators are enabled"),
+        )
+        mock_error_exit = mocker.patch(
+            "cli.commands.eval_cmd.error_exit", side_effect=SystemExit(1)
+        )
+
+        result = runner.invoke(eval_cmd, [str(test_config_file), "--export-evalport"])
+
+        assert result.exit_code == 1
+        mock_error_exit.assert_called_once()
+        assert "EvalPort export" in mock_error_exit.call_args[0][0]
+        assert "no evaluators are enabled" in mock_error_exit.call_args[0][0]
+
+    def test_export_skipped_when_evaluation_fails(self, runner, test_config_file, mocker):
+        """Test a failed evaluation never reaches the export"""
+        mocker.patch("evaluation.run.main", side_effect=Exception("boom"))
+        mock_export = mocker.patch("evaluation.evalport_bridge.export_results")
+        mocker.patch("cli.commands.eval_cmd.error_exit", side_effect=SystemExit(1))
+
+        result = runner.invoke(eval_cmd, [str(test_config_file), "--export-evalport"])
+
+        assert result.exit_code == 1
+        mock_export.assert_not_called()

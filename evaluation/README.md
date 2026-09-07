@@ -64,3 +64,34 @@ For evaluations that use an LLM to judge the response, the following variables a
 export LLM_SERVICE_ENDPOINT=<enter the endpoint for the LLM service>
 export LLM_SERVICE_API_KEY=<enter the API key for the LLM service>
 ```
+
+## Exporting to EvalPort
+
+The evaluation results can be exported to [EvalPort](https://github.com/adhabnr-ux/evalport),
+an open JSON-Schema specification for portable LLM evaluation documents, so
+suites and results can be consumed by other evaluation tools without bespoke
+glue code.
+
+Export as part of a run:
+
+```bash
+sam eval <test_suite_config.json> --export-evalport
+```
+
+Or convert the results of a previous run without re-executing anything:
+
+```bash
+python -m evaluation.evalport_bridge <test_suite_config.json>
+```
+
+This writes one `<suite>.suite.json` (the test cases plus grader
+definitions) and one `<model>.resultset.json` per evaluated model into
+`results/<results_dir_name>/evalport/`. Each SAM run maps to an EvalPort
+result with the run number as its `attempt`, and the three evaluators map to
+the framework-specific grader types `tool_match`, `response_match` and
+`llm_eval`.
+
+SAM scores are continuous values in [0, 1] with no pass/fail notion, while
+EvalPort requires a boolean per grader result. The export derives it as
+`score >= threshold` with a configurable `--pass-threshold` (default `0.5`),
+and records the threshold in the ResultSet metadata.
