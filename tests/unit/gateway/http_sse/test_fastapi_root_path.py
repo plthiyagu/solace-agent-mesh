@@ -33,7 +33,10 @@ class TestRootPathSchema:
     def test_component_runtime_fallback_matches_schema_default(self):
         source = inspect.getsource(WebUIBackendComponent.__init__)
 
-        assert 'self.get_config("fastapi_root_path", "")' in source
+        # The `or ""` also covers a config that carries the key with a None
+        # value (an unset env var leaves `fastapi_root_path:` blank in YAML),
+        # so uvicorn always receives a string.
+        assert 'self.get_config("fastapi_root_path", "") or ""' in source
 
 
 class TestRootPathReachesUvicorn:

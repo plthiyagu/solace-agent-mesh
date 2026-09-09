@@ -30,7 +30,7 @@ apps:
       fastapi_host: ${FASTAPI_HOST}
       fastapi_port: ${FASTAPI_PORT, 8000}
       # URL prefix when served behind a reverse proxy sub-path, e.g. "/agent-mesh"
-      fastapi_root_path: ${FASTAPI_ROOT_PATH}
+      fastapi_root_path: ${FASTAPI_ROOT_PATH, ""}
       cors_allowed_origins:
         - "http://localhost:3000"
         - "http://127.0.0.1:3000"
