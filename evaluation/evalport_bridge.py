@@ -328,7 +328,7 @@ def export_results(
         grader_ids=grader_ids,
         run_count=config.run_count,
     )
-    suite_path = output_dir / f"{suite_id}.suite.json"
+    suite_path = output_dir / f"{results_dir.name}.suite.json"
     _write_json(suite_doc, suite_path)
     written.append(suite_path)
 
