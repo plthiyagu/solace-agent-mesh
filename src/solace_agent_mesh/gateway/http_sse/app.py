@@ -55,6 +55,16 @@ class WebUIBackendApp(BaseGatewayApp):
             "description": "Port for the embedded FastAPI server when SSL is enabled.",
         },
         {
+            "name": "fastapi_root_path",
+            "required": False,
+            "type": "string",
+            "default": "",
+            "description": "URL path prefix when the gateway is mounted behind a "
+            "reverse proxy sub-path (e.g. '/agent-mesh'). Passed to uvicorn as "
+            "root_path so FastAPI generates correct redirect, docs and "
+            "absolute URLs.",
+        },
+        {
             "name": "cors_allowed_origins",
             "required": False,
             "type": "list",

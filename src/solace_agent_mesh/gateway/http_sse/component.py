@@ -162,6 +162,7 @@ class WebUIBackendComponent(BaseGatewayComponent):
             self.fastapi_host = self.get_config("fastapi_host", "127.0.0.1")
             self.fastapi_port = self.get_config("fastapi_port", 8000)
             self.fastapi_https_port = self.get_config("fastapi_https_port", 8443)
+            self.fastapi_root_path = self.get_config("fastapi_root_path", "")
             self.session_secret_key = self.get_config("session_secret_key")
             self.cors_allowed_origins = self.get_config("cors_allowed_origins", ["*"])
             self.cors_allowed_origin_regex = self.get_config("cors_allowed_origin_regex", "")
@@ -1753,6 +1754,7 @@ class WebUIBackendComponent(BaseGatewayComponent):
                 app=self.fastapi_app,
                 host=self.fastapi_host,
                 port=port,
+                root_path=self.fastapi_root_path,
                 log_level="warning",
                 lifespan="on",
                 ssl_keyfile=self.ssl_keyfile,

@@ -16,6 +16,7 @@ SESSION_SECRET_KEY="replace_with_your_secret_key"
 FASTAPI_HOST="127.0.0.1" # Must be 0.0.0.0 for containerized environments
 FASTAPI_PORT="8000"
 FASTAPI_HTTPS_PORT="8443"
+FASTAPI_ROOT_PATH="" # URL prefix behind a reverse proxy sub-path, e.g. "/agent-mesh"
 
 # OAuth 2.0 Client Credentials configuration
 LLM_SERVICE_OAUTH_TOKEN_URL=""
