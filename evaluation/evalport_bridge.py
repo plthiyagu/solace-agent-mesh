@@ -303,8 +303,15 @@ def export_results(
     ``<model>.resultset.json`` per model into ``output_dir`` (defaults to
     ``<results_dir>/evalport``). Returns the written paths.
     """
+    if not 0.0 <= pass_threshold <= 1.0:
+        raise ValueError(
+            f"pass_threshold must be within [0, 1], got {pass_threshold}"
+        )
+
     config = EvaluationConfigLoader(config_path).load_configuration()
-    suite_id = config.results_directory
+    suite_id = _safe_filename_component(
+        config.results_directory, what="results_dir_name"
+    )
     grader_ids = enabled_grader_ids(config.evaluation_options)
     if not grader_ids:
         raise ValueError(
@@ -343,8 +350,10 @@ def export_results(
             started_at=started_at,
             pass_threshold=pass_threshold,
         )
+        # The filename comes from the model directory on disk, not from the
+        # JSON content: a crafted results.json must not choose where we write.
         result_set_path = (
-            output_dir / f"{model_results['model_name']}.resultset.json"
+            output_dir / f"{results_file.parent.name}.resultset.json"
         )
         _write_json(result_set, result_set_path)
         written.append(result_set_path)
@@ -357,6 +366,25 @@ def export_results(
         )
 
     return written
+
+
+def _safe_filename_component(name: str, *, what: str) -> str:
+    """``name`` verified to be a single, safe path component.
+
+    The suite id names output files and the default results directory; a
+    value carrying separators or traversal must fail loudly rather than
+    write outside the output directory.
+    """
+    candidate = str(name)
+    if (
+        not candidate
+        or candidate in (".", "..")
+        or "/" in candidate
+        or "\\" in candidate
+        or candidate != Path(candidate).name
+    ):
+        raise ValueError(f"{what} {name!r} is not a safe filename component")
+    return candidate
 
 
 def _write_json(data: dict, filepath: Path) -> None:

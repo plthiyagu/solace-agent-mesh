@@ -323,3 +323,47 @@ class TestExportResults:
             export_results(
                 str(tmp_path / "config.json"), results_dir=suite_tree
             )
+
+    def test_rejects_a_suite_id_that_escapes_the_output_dir(
+        self, suite_tree, tmp_path, mocker
+    ):
+        loader = mocker.patch(
+            "evaluation.evalport_bridge.EvaluationConfigLoader"
+        )
+        loader.return_value.load_configuration.return_value = SimpleNamespace(
+            results_directory="../evil",
+            test_case_files=[],
+            run_count=1,
+            evaluation_options=options(llm=True),
+        )
+
+        with pytest.raises(ValueError, match="not a safe filename component"):
+            export_results(
+                str(tmp_path / "config.json"), results_dir=suite_tree
+            )
+
+    def test_model_filename_comes_from_the_directory_not_the_json(
+        self, suite_tree, tmp_path
+    ):
+        crafted = dict(MODEL_RESULTS, model_name="../../escape")
+        results_file = suite_tree / "test-model" / "results.json"
+        results_file.write_text(json.dumps(crafted))
+
+        written = export_results(
+            str(tmp_path / "config.json"), results_dir=suite_tree
+        )
+
+        result_set_path = written[1]
+        assert result_set_path.name == "test-model.resultset.json"
+        assert result_set_path.parent == suite_tree / "evalport"
+
+    @pytest.mark.parametrize("threshold", [-0.1, 1.5])
+    def test_rejects_an_out_of_range_pass_threshold(
+        self, suite_tree, tmp_path, threshold
+    ):
+        with pytest.raises(ValueError, match="pass_threshold"):
+            export_results(
+                str(tmp_path / "config.json"),
+                results_dir=suite_tree,
+                pass_threshold=threshold,
+            )
