@@ -22,7 +22,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from click.testing import CliRunner
 
-from cli.commands.run_cmd import run, _execute_with_solace_ai_connector
+from solace_agent_mesh.cli.commands.run_cmd import run, _execute_with_solace_ai_connector
 
 
 @pytest.fixture
@@ -157,7 +157,7 @@ class TestExecuteWithSolaceAIConnector:
         if 'solace_ai_connector' in sys.modules:
             del sys.modules['solace_ai_connector']
         
-        mock_error_exit = mocker.patch("cli.commands.run_cmd.error_exit", side_effect=SystemExit(1))
+        mock_error_exit = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.error_exit", side_effect=SystemExit(1))
         
         # Temporarily make the import fail
         import builtins
@@ -190,7 +190,7 @@ class TestRunCommand:
         
         try:
             caplog.set_level(logging.INFO)
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
             
             result = runner.invoke(run, [])
@@ -216,7 +216,7 @@ class TestRunCommand:
         """Test run command with specific config file"""
         config_file = project_dir / "configs" / "agent1.yaml"
 
-        mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
         mock_exit = mocker.patch("sys.exit")
 
         result = runner.invoke(run, [str(config_file)])
@@ -233,7 +233,7 @@ class TestRunCommand:
         """Test run command with directory path"""
         configs_dir = project_dir / "configs"
 
-        mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
         mock_exit = mocker.patch("sys.exit")
 
         result = runner.invoke(run, [str(configs_dir)])
@@ -254,7 +254,7 @@ class TestRunCommand:
         os.chdir(project_dir)
 
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
 
             result = runner.invoke(run, ["--skip", "agent1.yaml"])
@@ -276,7 +276,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
             
             result = runner.invoke(run, ["-s", "agent1.yaml", "-s", "agent2.yml"])
@@ -301,8 +301,8 @@ class TestRunCommand:
         
         try:
             mocker.patch("solace_ai_connector.common.logging_config.configure_from_file", return_value=True)
-            mock_find_dotenv = mocker.patch("cli.commands.run_cmd.find_dotenv")
-            mock_load_dotenv = mocker.patch("cli.commands.run_cmd.load_dotenv")
+            mock_find_dotenv = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv")
+            mock_load_dotenv = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.load_dotenv")
             
             result = runner.invoke(run, ["--system-env"])
             output = result.output + caplog.text
@@ -323,8 +323,8 @@ class TestRunCommand:
         try:
             env_file = project_dir / ".env"
             mocker.patch("solace_ai_connector.common.logging_config.configure_from_file", return_value=True)
-            mock_find_dotenv = mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
-            mock_load_dotenv = mocker.patch("cli.commands.run_cmd.load_dotenv")
+            mock_find_dotenv = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
+            mock_load_dotenv = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.load_dotenv")
             
             result = runner.invoke(run, [])
             output = result.output + caplog.text
@@ -343,7 +343,7 @@ class TestRunCommand:
         
         try:
             caplog.set_level(logging.WARNING)
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             
             result = runner.invoke(run, [])
             
@@ -360,7 +360,7 @@ class TestRunCommand:
         os.chdir(tmp_path)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mocker.patch("solace_agent_mesh.common.utils.initializer.initialize")
             
             result = runner.invoke(run, [])
@@ -379,7 +379,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mocker.patch("solace_ai_connector.common.logging_config.configure_from_file", return_value=True)
             
             # Skip all discovered files
@@ -397,7 +397,7 @@ class TestRunCommand:
         # Create a non-YAML file
         (project_dir / "configs" / "readme.txt").write_text("Not a YAML file")
 
-        mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
 
         result = runner.invoke(run, [str(project_dir / "configs" / "readme.txt")])
         output = result.output + caplog.text
@@ -412,14 +412,14 @@ class TestRunCommand:
         
         try:
             env_file = project_dir / ".env"
-            mock_find_dotenv = mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
+            mock_find_dotenv = mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
             
             # Mock load_dotenv to set LOGGING_CONFIG_PATH
             def mock_load_env(*args, **kwargs):
                 os.environ["LOGGING_CONFIG_PATH"] = "configs/logging.yaml"
             
-            mocker.patch("cli.commands.run_cmd.load_dotenv", side_effect=mock_load_env)
-            mocker.patch("cli.commands.run_cmd.os.path.isabs", return_value=False)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.load_dotenv", side_effect=mock_load_env)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.os.path.isabs", return_value=False)
             
             result = runner.invoke(run, [])
             
@@ -436,8 +436,8 @@ class TestRunCommand:
         
         try:
             env_file = project_dir / ".env"
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
-            mocker.patch("cli.commands.run_cmd.load_dotenv")
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=str(env_file))
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.load_dotenv")
             
             # Mock reconfigure_logging
             mock_reconfigure = MagicMock(return_value=True)
@@ -459,7 +459,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_connector = mocker.patch("solace_ai_connector.main.main", return_value=0)
             mock_exit = mocker.patch("sys.exit")
             
@@ -475,7 +475,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_connector = mocker.patch("solace_ai_connector.main.main", return_value=1)
             # Mock sys.exit to raise SystemExit with the code
             def mock_exit_func(code):
@@ -494,7 +494,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
             
             result = runner.invoke(run, [])
@@ -518,7 +518,7 @@ class TestRunCommand:
         os.chdir(project_dir)
 
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
 
             result = runner.invoke(run, [])
@@ -537,7 +537,7 @@ class TestRunCommand:
         os.chdir(project_dir)
 
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             mock_exit = mocker.patch("sys.exit")
 
             result = runner.invoke(run, [])
@@ -557,7 +557,7 @@ class TestRunCommand:
         os.chdir(project_dir)
         
         try:
-            mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+            mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
             
             result = runner.invoke(run, [])
             output = result.output + caplog.text
@@ -574,7 +574,7 @@ class TestRunCommand:
         config_file = project_dir / "configs" / "agent1.yaml"
         sub_dir = project_dir / "configs" / "subdir"
         
-        mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
         mock_exit = mocker.patch("sys.exit")
         
         result = runner.invoke(run, [str(config_file), str(sub_dir)])
@@ -592,7 +592,7 @@ class TestRunCommand:
         caplog.set_level(logging.INFO)
         config_file = project_dir / "configs" / "agent1.yaml"
         
-        mocker.patch("cli.commands.run_cmd.find_dotenv", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.run_cmd.find_dotenv", return_value=None)
         mock_exit = mocker.patch("sys.exit")
         
         result = runner.invoke(run, [str(config_file), str(config_file)])

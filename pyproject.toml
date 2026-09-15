@@ -155,7 +155,7 @@ python = ["3.10", "3.13"]
 
 [tool.hatch.envs.hatch-test.scripts]
 run = "pytest {args}"
-run-cov = "coverage run -m pytest --cov=cli --cov=src {args}"
+run-cov = "coverage run -m pytest --cov=src {args}"
 cov-combine = "coverage combine"
 cov-report = "coverage report"
 
@@ -172,6 +172,15 @@ sam = "solace_agent_mesh.cli.main:cli"
 line-length = 88
 select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM"]
 ignore = ["E501", "B008"]
+# The CLI, evaluation and config-portal backends moved under src/ so the
+# console entry points resolve in editable installs (#1645). They lived
+# outside the linted roots (./src ./tests) before the move and carry that
+# period's style debt; excluding them keeps the move a move, not a rewrite.
+extend-exclude = [
+  "src/solace_agent_mesh/cli",
+  "src/solace_agent_mesh/evaluation",
+  "src/solace_agent_mesh/config_portal",
+]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -270,12 +279,11 @@ allow-direct-references = true
 packages = ["src/solace_agent_mesh"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"templates" = "solace_agent_mesh/templates"
-"cli" = "solace_agent_mesh/cli"
-"evaluation" = "solace_agent_mesh/evaluation"
+# Only non-Python build outputs still need grafting: the Python packages
+# (cli, evaluation, config_portal.backend, templates) live under
+# src/solace_agent_mesh and ship with the package in every install mode,
+# editable included (#1645).
 "config_portal/frontend/static" = "solace_agent_mesh/config_portal/frontend/static"
-"config_portal/backend" = "solace_agent_mesh/config_portal/backend"
-"config_portal/__init__.py" = "solace_agent_mesh/config_portal/__init__.py"
 "client/webui/frontend/static" = "solace_agent_mesh/client/webui/frontend/static"
 "docs/build" = "solace_agent_mesh/assets/docs"
 
@@ -291,4 +299,4 @@ path = ".github/helper_scripts/build_frontend.py"
 path = ".github/helper_scripts/build_frontend.py"
 
 [tool.hatch.version]
-path = "cli/__init__.py"
+path = "src/solace_agent_mesh/cli/__init__.py"

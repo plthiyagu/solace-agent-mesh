@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from cli.main import cli
+from solace_agent_mesh.cli.main import cli
 
 
 @pytest.fixture
@@ -342,7 +342,7 @@ def test_add_agent_artifact_service_scopes(project_dir):
         )
 
         # Convert to snake_case properly - the naming function converts to snake case and adds _agent
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         formatted_names = get_formatted_names(agent_name)
         snake_case_file = formatted_names["SNAKE_CASE_NAME"]

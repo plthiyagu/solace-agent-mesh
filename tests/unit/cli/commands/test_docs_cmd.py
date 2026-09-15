@@ -15,7 +15,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 from click.testing import CliRunner
 
-from cli.commands.docs_cmd import docs, DocsHttpRequestHandler
+from solace_agent_mesh.cli.commands.docs_cmd import docs, DocsHttpRequestHandler
 
 
 @pytest.fixture
@@ -111,16 +111,16 @@ class TestDocsCommand:
         (prod_docs / "index.html").write_text("<html>Prod Docs</html>")
         
         # Mock get_cli_root_dir to return our tmp_path
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
         
         # Mock webbrowser and TCPServer
-        mock_browser = mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mock_browser = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         mock_server = MagicMock()
         mock_server.__enter__ = Mock(return_value=mock_server)
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs)
         
@@ -137,22 +137,22 @@ class TestDocsCommand:
         (dev_docs / "index.html").write_text("<html>Dev Docs</html>")
         
         # Mock paths - prod doesn't exist, dev does
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path / "nonexistent"))
-        mocker.patch("cli.commands.docs_cmd.os.path.dirname", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path / "nonexistent"))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.os.path.dirname", return_value=str(tmp_path))
         
         def mock_exists(path):
             return "docs/build" in str(path)
         
-        mocker.patch("cli.commands.docs_cmd.os.path.exists", side_effect=mock_exists)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.os.path.exists", side_effect=mock_exists)
         
         # Mock webbrowser and TCPServer
-        mock_browser = mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mock_browser = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         mock_server = MagicMock()
         mock_server.__enter__ = Mock(return_value=mock_server)
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs)
         
@@ -166,16 +166,16 @@ class TestDocsCommand:
         prod_docs = tmp_path / "assets" / "docs"
         prod_docs.mkdir(parents=True)
         
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
         
         # Mock webbrowser and TCPServer
-        mock_browser = mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mock_browser = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         mock_server = MagicMock()
         mock_server.__enter__ = Mock(return_value=mock_server)
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mock_tcp_server = mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mock_tcp_server = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs, ["--port", "9000"])
         
@@ -190,12 +190,12 @@ class TestDocsCommand:
     def test_docs_command_missing_docs_directory(self, runner, tmp_path, mocker):
         """Test docs command when no docs directory exists"""
         # Mock paths to non-existent directories
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path / "nonexistent"))
-        mocker.patch("cli.commands.docs_cmd.os.path.dirname", return_value=str(tmp_path / "nonexistent"))
-        mocker.patch("cli.commands.docs_cmd.os.path.exists", return_value=False)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path / "nonexistent"))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.os.path.dirname", return_value=str(tmp_path / "nonexistent"))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.os.path.exists", return_value=False)
         
         # Mock error_exit to raise SystemExit
-        mock_error_exit = mocker.patch("cli.commands.docs_cmd.error_exit", side_effect=SystemExit(1))
+        mock_error_exit = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.error_exit", side_effect=SystemExit(1))
         
         result = runner.invoke(docs)
         
@@ -209,8 +209,8 @@ class TestDocsCommand:
         prod_docs = tmp_path / "assets" / "docs"
         prod_docs.mkdir(parents=True)
         
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
-        mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         
         # Mock TCPServer to raise KeyboardInterrupt
         mock_server = MagicMock()
@@ -218,7 +218,7 @@ class TestDocsCommand:
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs)
         
@@ -238,15 +238,15 @@ class TestDocsCommand:
         prod_docs = tmp_path / "assets" / "docs"
         prod_docs.mkdir(parents=True)
         
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
         
-        mock_browser = mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mock_browser = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         mock_server = MagicMock()
         mock_server.__enter__ = Mock(return_value=mock_server)
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs, ["-p", "7777"])
         
@@ -270,15 +270,15 @@ class TestDocsCommand:
         prod_docs = tmp_path / "assets" / "docs"
         prod_docs.mkdir(parents=True)
         
-        mocker.patch("cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.get_cli_root_dir", return_value=str(tmp_path))
         
-        mock_browser = mocker.patch("cli.commands.docs_cmd.webbrowser.open_new_tab")
+        mock_browser = mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.webbrowser.open_new_tab")
         mock_server = MagicMock()
         mock_server.__enter__ = Mock(return_value=mock_server)
         mock_server.__exit__ = Mock(return_value=False)
         mock_server.serve_forever = Mock(side_effect=KeyboardInterrupt)
         
-        mocker.patch("cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
+        mocker.patch("solace_agent_mesh.cli.commands.docs_cmd.socketserver.TCPServer", return_value=mock_server)
         
         result = runner.invoke(docs, ["--port", "8585"])
         

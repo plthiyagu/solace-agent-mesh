@@ -81,18 +81,18 @@ def mock_get_module_path(mocker):
     """Mock get_module_path to return a valid path"""
     def _get_module_path(module_name):
         return f"/fake/path/to/{module_name}"
-    return mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path", side_effect=_get_module_path)
+    return mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path", side_effect=_get_module_path)
 
 
 @pytest.fixture
 def mock_official_registry(mocker):
     """Mock official registry functions"""
     mocker.patch(
-        "cli.commands.plugin_cmd.install_cmd.get_official_plugin_url",
+        "solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url",
         return_value=None
     )
     mocker.patch(
-        "cli.commands.plugin_cmd.create_cmd.is_official_plugin",
+        "solace_agent_mesh.cli.commands.plugin_cmd.create_cmd.is_official_plugin",
         return_value=False
     )
     return mocker
@@ -159,7 +159,7 @@ __PLUGIN_DESCRIPTION__
         return content
     
     return mocker.patch(
-        "cli.commands.plugin_cmd.create_cmd.load_template",
+        "solace_agent_mesh.cli.commands.plugin_cmd.create_cmd.load_template",
         side_effect=load_template_side_effect
     )
 

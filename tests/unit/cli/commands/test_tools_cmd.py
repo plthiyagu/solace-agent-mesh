@@ -18,7 +18,7 @@ import pytest
 from click.testing import CliRunner
 from google.genai import types as adk_types
 
-from cli.commands.tools_cmd import (
+from solace_agent_mesh.cli.commands.tools_cmd import (
     tools,
     list_tools,
     format_tool_table_brief,
@@ -345,7 +345,7 @@ class TestListToolsCommand:
             mock_registry.get_all_tools.return_value = sample_tools_list
 
             # Mock error_exit to raise SystemExit
-            with patch("cli.commands.tools_cmd.error_exit", side_effect=SystemExit(1)):
+            with patch("solace_agent_mesh.cli.commands.tools_cmd.error_exit", side_effect=SystemExit(1)):
                 result = runner.invoke(list_tools, ["--category", "invalid_category"])
 
                 assert result.exit_code == 1
@@ -405,7 +405,7 @@ class TestListToolsCommand:
         with patch("solace_agent_mesh.agent.tools.registry.tool_registry") as mock_registry:
             mock_registry.get_all_tools.return_value = []
 
-            with patch("cli.commands.tools_cmd.error_exit", side_effect=SystemExit(1)):
+            with patch("solace_agent_mesh.cli.commands.tools_cmd.error_exit", side_effect=SystemExit(1)):
                 result = runner.invoke(list_tools, [])
 
                 assert result.exit_code == 1
@@ -509,7 +509,7 @@ class TestListToolsCommand:
             mock_registry.get_all_tools.return_value = sample_tools_list
 
             mock_error_exit = MagicMock(side_effect=SystemExit(1))
-            with patch("cli.commands.tools_cmd.error_exit", mock_error_exit):
+            with patch("solace_agent_mesh.cli.commands.tools_cmd.error_exit", mock_error_exit):
                 result = runner.invoke(list_tools, ["-c", "nonexistent"])
 
                 assert result.exit_code == 1

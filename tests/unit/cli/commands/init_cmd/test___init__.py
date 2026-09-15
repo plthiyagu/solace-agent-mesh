@@ -4,7 +4,7 @@ Target: Increase coverage from 92% to 80%+ (already above target, adding compreh
 """
 from click.testing import CliRunner
 
-from cli.commands.init_cmd import init, run_init_flow, DEFAULT_INIT_VALUES
+from solace_agent_mesh.cli.commands.init_cmd import init, run_init_flow, DEFAULT_INIT_VALUES
 
 
 class TestRunInitFlow:
@@ -13,13 +13,13 @@ class TestRunInitFlow:
     def test_successful_init_flow_skip_interactive(self, temp_project_dir, mocker):
         """Test successful initialization flow in skip interactive mode"""
         mock_echo = mocker.patch("click.echo")
-        mock_broker = mocker.patch("cli.commands.init_cmd.broker_setup_step", return_value={})
-        mock_dirs = mocker.patch("cli.commands.init_cmd.create_project_directories", return_value=True)
-        mock_files = mocker.patch("cli.commands.init_cmd.create_project_files", return_value=True)
-        mock_orch = mocker.patch("cli.commands.init_cmd.create_orchestrator_config", return_value=True)
-        mock_webui = mocker.patch("cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
-        mock_platform = mocker.patch("cli.commands.init_cmd.create_platform_service_config", return_value=True)
-        mock_env = mocker.patch("cli.commands.init_cmd.create_env_file", return_value=True)
+        mock_broker = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_setup_step", return_value={})
+        mock_dirs = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_directories", return_value=True)
+        mock_files = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_files", return_value=True)
+        mock_orch = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_orchestrator_config", return_value=True)
+        mock_webui = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
+        mock_platform = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_platform_service_config", return_value=True)
+        mock_env = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_env_file", return_value=True)
 
         mocker.patch("pathlib.Path.cwd", return_value=temp_project_dir)
 
@@ -38,16 +38,16 @@ class TestRunInitFlow:
         """Test initialization flow with web-based init"""
         mock_echo = mocker.patch("click.echo")
         mock_web_init = mocker.patch(
-            "cli.commands.init_cmd.perform_web_init",
+            "solace_agent_mesh.cli.commands.init_cmd.perform_web_init",
             return_value={"llm_service_endpoint": "https://api.test.com"}
         )
-        mock_broker = mocker.patch("cli.commands.init_cmd.broker_setup_step", return_value={})
-        mock_dirs = mocker.patch("cli.commands.init_cmd.create_project_directories", return_value=True)
-        mock_files = mocker.patch("cli.commands.init_cmd.create_project_files", return_value=True)
-        mock_orch = mocker.patch("cli.commands.init_cmd.create_orchestrator_config", return_value=True)
-        mock_webui = mocker.patch("cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
-        mock_platform = mocker.patch("cli.commands.init_cmd.create_platform_service_config", return_value=True)
-        mock_env = mocker.patch("cli.commands.init_cmd.create_env_file", return_value=True)
+        mock_broker = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_setup_step", return_value={})
+        mock_dirs = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_directories", return_value=True)
+        mock_files = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_files", return_value=True)
+        mock_orch = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_orchestrator_config", return_value=True)
+        mock_webui = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
+        mock_platform = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_platform_service_config", return_value=True)
+        mock_env = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_env_file", return_value=True)
 
         mocker.patch("pathlib.Path.cwd", return_value=temp_project_dir)
 
@@ -59,14 +59,14 @@ class TestRunInitFlow:
     def test_init_flow_interactive_web_prompt(self, temp_project_dir, mocker):
         """Test that interactive mode prompts for web init"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask_yes_no = mocker.patch("cli.commands.init_cmd.ask_yes_no_question", return_value=False)
-        mock_broker = mocker.patch("cli.commands.init_cmd.broker_setup_step", return_value={})
-        mock_dirs = mocker.patch("cli.commands.init_cmd.create_project_directories", return_value=True)
-        mock_files = mocker.patch("cli.commands.init_cmd.create_project_files", return_value=True)
-        mock_orch = mocker.patch("cli.commands.init_cmd.create_orchestrator_config", return_value=True)
-        mock_webui = mocker.patch("cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
-        mock_platform = mocker.patch("cli.commands.init_cmd.create_platform_service_config", return_value=True)
-        mock_env = mocker.patch("cli.commands.init_cmd.create_env_file", return_value=True)
+        mock_ask_yes_no = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.ask_yes_no_question", return_value=False)
+        mock_broker = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_setup_step", return_value={})
+        mock_dirs = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_directories", return_value=True)
+        mock_files = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_files", return_value=True)
+        mock_orch = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_orchestrator_config", return_value=True)
+        mock_webui = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
+        mock_platform = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_platform_service_config", return_value=True)
+        mock_env = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_env_file", return_value=True)
 
         mocker.patch("pathlib.Path.cwd", return_value=temp_project_dir)
 
@@ -78,13 +78,13 @@ class TestRunInitFlow:
     def test_init_flow_web_init_with_skip_shows_warning(self, temp_project_dir, mocker):
         """Test that web init with skip interactive shows warning"""
         mock_echo = mocker.patch("click.echo")
-        mock_broker = mocker.patch("cli.commands.init_cmd.broker_setup_step", return_value={})
-        mock_dirs = mocker.patch("cli.commands.init_cmd.create_project_directories", return_value=True)
-        mock_files = mocker.patch("cli.commands.init_cmd.create_project_files", return_value=True)
-        mock_orch = mocker.patch("cli.commands.init_cmd.create_orchestrator_config", return_value=True)
-        mock_webui = mocker.patch("cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
-        mock_platform = mocker.patch("cli.commands.init_cmd.create_platform_service_config", return_value=True)
-        mock_env = mocker.patch("cli.commands.init_cmd.create_env_file", return_value=True)
+        mock_broker = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_setup_step", return_value={})
+        mock_dirs = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_directories", return_value=True)
+        mock_files = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_files", return_value=True)
+        mock_orch = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_orchestrator_config", return_value=True)
+        mock_webui = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
+        mock_platform = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_platform_service_config", return_value=True)
+        mock_env = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_env_file", return_value=True)
 
         mocker.patch("pathlib.Path.cwd", return_value=temp_project_dir)
 
@@ -100,7 +100,7 @@ class TestInitCommand:
 
     def test_init_command_basic(self, mocker):
         """Test basic init command execution"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, ["--skip"])
@@ -110,7 +110,7 @@ class TestInitCommand:
 
     def test_init_command_with_gui_flag(self, mocker):
         """Test init command with --gui flag"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, ["--gui"])
@@ -122,7 +122,7 @@ class TestInitCommand:
 
     def test_init_command_with_dev_mode_flag(self, mocker):
         """Test init command with --dev-mode flag"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, ["--dev-mode", "--skip"])
@@ -134,7 +134,7 @@ class TestInitCommand:
 
     def test_init_command_dev_mode_overrides_broker_type(self, mocker):
         """Test that --dev-mode overrides conflicting --broker-type"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, ["--dev-mode", "--broker-type", "1", "--skip"])
@@ -146,7 +146,7 @@ class TestInitCommand:
 
     def test_init_command_with_llm_options(self, mocker):
         """Test init command with LLM configuration options"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, [
@@ -163,7 +163,7 @@ class TestInitCommand:
 
     def test_init_command_with_broker_options(self, mocker):
         """Test init command with broker configuration options"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, [
@@ -181,7 +181,7 @@ class TestInitCommand:
 
     def test_init_command_with_agent_options(self, mocker):
         """Test init command with agent configuration options"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, [
@@ -198,7 +198,7 @@ class TestInitCommand:
 
     def test_init_command_with_webui_options(self, mocker):
         """Test init command with WebUI gateway options"""
-        mock_run_flow = mocker.patch("cli.commands.init_cmd.run_init_flow")
+        mock_run_flow = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.run_init_flow")
         
         runner = CliRunner()
         result = runner.invoke(init, [
@@ -224,12 +224,12 @@ class TestInitCommand:
     def test_init_flow_step_count_display(self, temp_project_dir, mocker):
         """Test that step count is displayed correctly"""
         mock_echo = mocker.patch("click.echo")
-        mock_broker = mocker.patch("cli.commands.init_cmd.broker_setup_step", return_value={})
-        mock_dirs = mocker.patch("cli.commands.init_cmd.create_project_directories", return_value=True)
-        mock_files = mocker.patch("cli.commands.init_cmd.create_project_files", return_value=True)
-        mock_orch = mocker.patch("cli.commands.init_cmd.create_orchestrator_config", return_value=True)
-        mock_webui = mocker.patch("cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
-        mock_env = mocker.patch("cli.commands.init_cmd.create_env_file", return_value=True)
+        mock_broker = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_setup_step", return_value={})
+        mock_dirs = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_directories", return_value=True)
+        mock_files = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_project_files", return_value=True)
+        mock_orch = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_orchestrator_config", return_value=True)
+        mock_webui = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_webui_gateway_config", return_value=True)
+        mock_env = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.create_env_file", return_value=True)
         
         mocker.patch("pathlib.Path.cwd", return_value=temp_project_dir)
         

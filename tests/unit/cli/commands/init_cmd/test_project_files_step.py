@@ -3,7 +3,7 @@ Unit tests for project_files_step.py
 Target: Increase coverage from 75% to 80%+
 """
 
-from cli.commands.init_cmd.project_files_step import create_project_files
+from solace_agent_mesh.cli.commands.init_cmd.project_files_step import create_project_files
 
 
 class TestCreateProjectFiles:
@@ -34,7 +34,7 @@ class TestCreateProjectFiles:
     def test_requirements_txt_version(self, temp_project_dir, mocker):
         """Test that requirements.txt contains correct version"""
         mock_echo = mocker.patch("click.echo")
-        mock_version = mocker.patch("cli.commands.init_cmd.project_files_step.cli_version", "1.2.3")
+        mock_version = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.project_files_step.cli_version", "1.2.3")
         
         (temp_project_dir / "src").mkdir(exist_ok=True)
         

@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 from click.testing import CliRunner
-from cli.commands.add_cmd.proxy_cmd import add_proxy
+from solace_agent_mesh.cli.commands.add_cmd.proxy_cmd import add_proxy
 
 
 class TestAddProxy:
@@ -79,13 +79,13 @@ apps:
                 raise FileNotFoundError(f"Template {name} not found")
         
         return mocker.patch(
-            "cli.commands.add_cmd.proxy_cmd.load_template",
+            "solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.load_template",
             side_effect=load_template_side_effect
         )
 
     def test_add_proxy_with_name_and_skip(self, runner, project_dir, mock_template, mocker):
         """Test add proxy with name and --skip flag"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         result = runner.invoke(add_proxy, ["TestProxy", "--skip"])
         
@@ -104,7 +104,7 @@ apps:
 
     def test_add_proxy_replaces_placeholder(self, runner, project_dir, mock_template, mocker):
         """Test that __PROXY_NAME__ placeholder is replaced correctly"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         result = runner.invoke(add_proxy, ["MyAwesomeProxy", "--skip"])
         
@@ -122,7 +122,7 @@ apps:
 
     def test_add_proxy_file_naming(self, runner, project_dir, mock_template, mocker):
         """Test that proxy file uses snake_case naming"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
 
         test_cases = [
             ("SimpleProxy", "simple_proxy_proxy.yaml"),
@@ -139,7 +139,7 @@ apps:
 
     def test_add_proxy_creates_directory(self, runner, project_dir, mock_template, mocker):
         """Test that configs/agents directory is created if it doesn't exist"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         agents_dir = project_dir / "configs" / "agents"
         assert not agents_dir.exists()
@@ -152,9 +152,9 @@ apps:
 
     def test_add_proxy_template_not_found(self, runner, project_dir, mocker):
         """Test error handling when template is not found"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         mocker.patch(
-            "cli.commands.add_cmd.proxy_cmd.load_template",
+            "solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.load_template",
             side_effect=FileNotFoundError("Template not found")
         )
         
@@ -164,7 +164,7 @@ apps:
 
     def test_add_proxy_without_skip_flag(self, runner, project_dir, mock_template, mocker):
         """Test add proxy without --skip flag (should work the same)"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         result = runner.invoke(add_proxy, ["TestProxy"])
         
@@ -177,7 +177,7 @@ apps:
 
     def test_add_proxy_pascal_case_conversion(self, runner, project_dir, mock_template, mocker):
         """Test that various naming formats convert to PascalCase correctly"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         test_cases = [
             ("hello_world", "HelloWorld"),
@@ -204,7 +204,7 @@ apps:
 
     def test_add_proxy_success_message(self, runner, project_dir, mock_template, mocker):
         """Test that success message contains only the creation message"""
-        mocker.patch("cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.proxy_cmd.Path.cwd", return_value=project_dir)
         
         result = runner.invoke(add_proxy, ["TestProxy", "--skip"])
         

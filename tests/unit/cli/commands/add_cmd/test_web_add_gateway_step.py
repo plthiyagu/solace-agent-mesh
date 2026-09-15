@@ -14,7 +14,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 import pytest
 
-from cli.commands.add_cmd.web_add_gateway_step import launch_add_gateway_web_portal
+from solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step import launch_add_gateway_web_portal
 
 
 @pytest.fixture
@@ -38,11 +38,11 @@ def mock_process():
 class TestLaunchAddGatewayWebPortal:
     """Tests for launch_add_gateway_web_portal function"""
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_successful_gateway_creation(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test successful gateway creation through web portal"""
         # Setup mocks
@@ -75,11 +75,11 @@ class TestLaunchAddGatewayWebPortal:
         mock_wait.assert_called_once_with("http://127.0.0.1:5002/?config_mode=addGateway")
         mock_browser.assert_called_once_with("http://127.0.0.1:5002/?config_mode=addGateway")
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_server_timeout_error(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of server timeout"""
         # Setup mocks
@@ -104,11 +104,11 @@ class TestLaunchAddGatewayWebPortal:
         assert result is None
         mock_browser.assert_not_called()
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_browser_open_exception(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of browser opening exception"""
         # Setup mocks
@@ -135,11 +135,11 @@ class TestLaunchAddGatewayWebPortal:
         # Should still try to open browser despite error
         mock_browser.assert_called_once()
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_incomplete_data_from_portal(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of incomplete data from web portal"""
         # Setup mocks
@@ -167,11 +167,11 @@ class TestLaunchAddGatewayWebPortal:
         # Verify
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_config_is_none(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling when config is explicitly None"""
         # Setup mocks
@@ -199,11 +199,11 @@ class TestLaunchAddGatewayWebPortal:
         # Verify - should return None since config is None (incomplete data)
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_shutdown_aborted_status(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of shutdown_aborted status"""
         # Setup mocks
@@ -230,11 +230,11 @@ class TestLaunchAddGatewayWebPortal:
         # Verify
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_no_data_from_portal(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling when no data is received from portal"""
         # Setup mocks
@@ -258,11 +258,11 @@ class TestLaunchAddGatewayWebPortal:
         # Verify
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_unknown_status_from_portal(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of unknown status from portal"""
         # Setup mocks
@@ -289,11 +289,11 @@ class TestLaunchAddGatewayWebPortal:
         # Verify
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_process_management(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test proper process management"""
         # Setup mocks
@@ -328,11 +328,11 @@ class TestLaunchAddGatewayWebPortal:
         assert call_args[1]['target'].__name__ == 'run_flask'
         assert call_args[1]['args'] == ("127.0.0.1", 5002, shared_data)
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_click_echo_messages(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test that appropriate messages are displayed to user"""
         # Setup mocks
@@ -367,11 +367,11 @@ class TestLaunchAddGatewayWebPortal:
         assert any("Complete the gateway configuration" in msg for msg in echo_calls)
         assert any("Configuration received from web portal" in msg for msg in echo_calls)
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_error_messages_to_stderr(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test that error messages are sent to stderr"""
         # Setup mocks
@@ -409,9 +409,9 @@ class TestLaunchAddGatewayWebPortal:
         # The actual implementation doesn't use cli_options currently
         # but the parameter should be accepted for future extensibility
         
-        with patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager') as mock_manager_class:
-            with patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process'):
-                with patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server', return_value=False):
+        with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager') as mock_manager_class:
+            with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process'):
+                with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server', return_value=False):
                     
                     shared_data = {}
                     manager_mock = Mock()
@@ -431,11 +431,11 @@ class TestLaunchAddGatewayWebPortal:
                         result = launch_add_gateway_web_portal(options)
                         assert result is None  # Expected due to server timeout
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_detailed_error_message_for_incomplete_data(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test detailed error message when data is incomplete"""
         # Setup mocks
@@ -463,11 +463,11 @@ class TestLaunchAddGatewayWebPortal:
         # Should return None since config is None (incomplete data)
         assert result is None
 
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_gateway_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_gateway_step.click.echo')
     def test_return_none_on_all_failure_paths(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test that function returns None on all failure paths"""
         # Setup mocks

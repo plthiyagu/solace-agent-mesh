@@ -12,13 +12,13 @@ from unittest.mock import Mock, patch, MagicMock
 import tempfile
 import shutil
 
-# Mock the imports before importing the modules
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent.parent / "config_portal" / "backend"))
-
-from plugin_catalog.registry_manager import RegistryManager
-from plugin_catalog.scraper import PluginScraper
-from plugin_catalog.models import Registry
+from solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager import (
+    RegistryManager,
+)
+from solace_agent_mesh.config_portal.backend.plugin_catalog.scraper import (
+    PluginScraper,
+)
+from solace_agent_mesh.config_portal.backend.plugin_catalog.models import Registry
 
 
 class TestRegistryReAdd:
@@ -34,14 +34,14 @@ class TestRegistryReAdd:
     @pytest.fixture
     def registry_manager(self, temp_dir):
         """Create a RegistryManager with a temporary user registries file."""
-        with patch('plugin_catalog.registry_manager.USER_REGISTRIES_PATH', 
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager.USER_REGISTRIES_PATH', 
                    f"{temp_dir}/user_registries.json"):
             manager = RegistryManager()
             yield manager
     
     def test_add_registry_returns_tuple(self, registry_manager):
         """Test that add_registry returns a tuple (success, is_update)."""
-        with patch('plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
                    'https://github.com/official/repo.git'):
             success, is_update = registry_manager.add_registry(
                 "https://github.com/test/repo.git",
@@ -57,7 +57,7 @@ class TestRegistryReAdd:
         """Test that re-adding a registry updates the existing entry."""
         test_url = "https://github.com/test/repo.git"
         
-        with patch('plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
                    'https://github.com/official/repo.git'):
             # First add
             success1, is_update1 = registry_manager.add_registry(test_url, name="test_repo")
@@ -79,7 +79,7 @@ class TestRegistryReAdd:
         """Test that re-adding a registry preserves the same ID."""
         test_url = "https://github.com/test/repo.git"
         
-        with patch('plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
                    'https://github.com/official/repo.git'):
             # First add
             registry_manager.add_registry(test_url, name="test_repo")
@@ -96,7 +96,7 @@ class TestRegistryReAdd:
     
     def test_multiple_registries_readd_one(self, registry_manager):
         """Test re-adding one registry when multiple exist."""
-        with patch('plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.registry_manager.DEFAULT_OFFICIAL_REGISTRY_URL', 
                    'https://github.com/official/repo.git'):
             # Add multiple registries
             registry_manager.add_registry("https://github.com/test1/repo.git", name="repo1")
@@ -135,7 +135,7 @@ class TestPluginScraperCacheClearing:
     @pytest.fixture
     def plugin_scraper(self, temp_dir):
         """Create a PluginScraper with a temporary base directory."""
-        with patch('plugin_catalog.scraper.PLUGIN_CATALOG_TEMP_DIR', temp_dir):
+        with patch('solace_agent_mesh.config_portal.backend.plugin_catalog.scraper.PLUGIN_CATALOG_TEMP_DIR', temp_dir):
             scraper = PluginScraper()
             yield scraper
     

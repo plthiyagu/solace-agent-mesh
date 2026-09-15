@@ -4,7 +4,7 @@ Target: Increase coverage from 19% to 80%+
 """
 from unittest.mock import MagicMock
 
-from cli.commands.init_cmd.web_init_step import perform_web_init
+from solace_agent_mesh.cli.commands.init_cmd.web_init_step import perform_web_init
 
 
 class TestPerformWebInit:
@@ -126,7 +126,7 @@ class TestPerformWebInit:
         """Test web init when server fails to start"""
         mock_echo = mocker.patch("click.echo")
         mock_wait = mocker.patch(
-            "cli.commands.init_cmd.web_init_step.wait_for_server",
+            "solace_agent_mesh.cli.commands.init_cmd.web_init_step.wait_for_server",
             return_value=False
         )
         

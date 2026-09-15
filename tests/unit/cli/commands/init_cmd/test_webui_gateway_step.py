@@ -2,7 +2,7 @@
 Unit tests for webui_gateway_step.py
 Target: Increase coverage from 76% to 80%+
 """
-from cli.commands.init_cmd.webui_gateway_step import (
+from solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step import (
     create_webui_gateway_config,
     WEBUI_GATEWAY_DEFAULTS,
 )
@@ -31,7 +31,7 @@ class TestCreateWebuiGatewayConfig:
     def test_successful_gateway_creation(self, temp_project_dir, mocker, mock_templates):
         """Test successful WebUI gateway configuration creation"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         
         # ask_if_not_provided updates options dict and returns value
         def ask_side_effect(opts, key, *args, **kwargs):
@@ -74,7 +74,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_with_defaults(self, temp_project_dir, mocker, mock_templates):
         """Test gateway creation with default values"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         
         def ask_side_effect(opts, key, prompt, default=None, **kwargs):
             opts[key] = default
@@ -94,11 +94,11 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_template_not_found(self, temp_project_dir, mocker):
         """Test handling of missing template file"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         mock_load = mocker.patch(
-            "cli.commands.init_cmd.webui_gateway_step.load_template",
+            "solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.load_template",
             side_effect=FileNotFoundError("Template not found")
         )
         
@@ -117,7 +117,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_file_write_error(self, temp_project_dir, mocker, mock_templates):
         """Test handling of file write error"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         # Mock open to fail
@@ -141,11 +141,11 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_unexpected_exception(self, temp_project_dir, mocker):
         """Test handling of unexpected exception"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         
         # Mock load_template to raise exception
         mock_load = mocker.patch(
-            "cli.commands.init_cmd.webui_gateway_step.load_template",
+            "solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.load_template",
             side_effect=Exception("Unexpected error")
         )
         
@@ -171,7 +171,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_interactive_mode(self, temp_project_dir, mocker, mock_templates):
         """Test gateway creation in interactive mode"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "interactive_value"
         
         options = {"add_webui_gateway": True}
@@ -188,7 +188,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_none_add_webui_gateway_uses_default(self, temp_project_dir, mocker, mock_templates):
         """Test that None add_webui_gateway uses default value"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         options = {"add_webui_gateway": None}
@@ -204,7 +204,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_directory_creation(self, temp_project_dir, mocker, mock_templates):
         """Test that gateway directory is created if it doesn't exist"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         options = {"add_webui_gateway": True}
@@ -224,7 +224,7 @@ class TestCreateWebuiGatewayConfig:
     def test_gateway_messages_displayed(self, temp_project_dir, mocker, mock_templates):
         """Test that appropriate messages are displayed"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True}
@@ -242,7 +242,7 @@ class TestCreateWebuiGatewayConfig:
     def test_no_provider_strips_model_from_webui(self, temp_project_dir, mocker, mock_templates):
         """Test that webui yaml has no model anchor when no LLM provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True, "llm_provider": ""}
@@ -260,7 +260,7 @@ class TestCreateWebuiGatewayConfig:
     def test_with_provider_keeps_model_in_webui(self, temp_project_dir, mocker, mock_templates):
         """Test that webui yaml retains model anchor when a provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.webui_gateway_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True, "llm_provider": "openai"}

@@ -4,7 +4,7 @@ Target: Increase coverage from 69% to 80%+
 """
 import pytest
 
-from cli.commands.init_cmd.orchestrator_step import (
+from solace_agent_mesh.cli.commands.init_cmd.orchestrator_step import (
     create_orchestrator_config,
 )
 
@@ -15,7 +15,7 @@ class TestCreateOrchestratorConfig:
     def test_successful_orchestrator_creation(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test successful orchestrator configuration creation"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test_value"
         
         options = {
@@ -47,7 +47,7 @@ class TestCreateOrchestratorConfig:
     def test_invalid_agent_name_skip_interactive(self, temp_project_dir, mocker, mock_templates):
         """Test invalid agent name in skip interactive mode raises error"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         options = {"agent_name": "Invalid-Name!"}
         
@@ -57,7 +57,7 @@ class TestCreateOrchestratorConfig:
     def test_invalid_agent_name_interactive_reprompt(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test invalid agent name in interactive mode prompts again"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         # ask_if_not_provided updates options dict and returns value
         def ask_side_effect(opts, key, *args, **kwargs):
@@ -80,7 +80,7 @@ class TestCreateOrchestratorConfig:
     def test_s3_artifact_service(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test orchestrator with S3 artifact service"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         def ask_side_effect(opts, key, *args, **kwargs):
             values = {
@@ -117,11 +117,11 @@ class TestCreateOrchestratorConfig:
     def test_shared_config_creation_failure(self, temp_project_dir, mocker):
         """Test handling of shared config creation failure"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         mock_load = mocker.patch(
-            "cli.commands.init_cmd.orchestrator_step.load_template",
+            "solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.load_template",
             side_effect=Exception("Template error")
         )
         
@@ -134,7 +134,7 @@ class TestCreateOrchestratorConfig:
     def test_logging_config_creation_failure(self, temp_project_dir, mocker, mock_templates):
         """Test handling of logging config creation failure"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         # Mock to fail on logging config write
@@ -155,7 +155,7 @@ class TestCreateOrchestratorConfig:
     def test_orchestrator_config_with_deny_list(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test orchestrator with deny list configured"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         def ask_side_effect(opts, key, *args, **kwargs):
             values = {
@@ -176,7 +176,7 @@ class TestCreateOrchestratorConfig:
     def test_artifact_service_parameter_mapping(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that artifact service parameters are mapped correctly for S3"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         # ask_if_not_provided updates options dict and returns value
         def ask_side_effect(opts, key, *args, **kwargs):
@@ -206,7 +206,7 @@ class TestCreateOrchestratorConfig:
     def test_list_input_output_modes_as_strings(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that comma-separated mode strings are converted to lists"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         
         def ask_side_effect(opts, key, *args, **kwargs):
             values = {
@@ -228,7 +228,7 @@ class TestCreateOrchestratorConfig:
     def test_messages_displayed(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that appropriate messages are displayed"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"agent_name": "TestAgent"}
@@ -265,7 +265,7 @@ class TestCreateOrchestratorConfig:
     def test_no_provider_strips_models_from_shared_config(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that shared_config has no models section when no LLM provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = self._base_options(llm_provider="")
@@ -279,7 +279,7 @@ class TestCreateOrchestratorConfig:
     def test_no_provider_strips_model_from_orchestrator(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that orchestrator yaml has no model anchor when no LLM provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = self._base_options(llm_provider="")
@@ -294,7 +294,7 @@ class TestCreateOrchestratorConfig:
     def test_with_provider_keeps_model_in_orchestrator(self, temp_project_dir, mocker, mock_templates, mock_get_formatted_names):
         """Test that orchestrator yaml retains model anchor when a provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = self._base_options(llm_provider="openai")

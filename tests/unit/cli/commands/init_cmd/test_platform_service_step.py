@@ -1,7 +1,7 @@
 """
 Unit tests for platform_service_step.py
 """
-from cli.commands.init_cmd.platform_service_step import (
+from solace_agent_mesh.cli.commands.init_cmd.platform_service_step import (
     create_platform_service_config,
     PLATFORM_SERVICE_DEFAULTS,
 )
@@ -30,7 +30,7 @@ class TestCreatePlatformServiceConfig:
     def test_successful_platform_service_creation(self, temp_project_dir, mocker, mock_templates):
         """Test successful Platform Service configuration creation"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
 
         # ask_if_not_provided updates options dict and returns value
         def ask_side_effect(opts, key, *args, **kwargs):
@@ -63,7 +63,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_with_defaults(self, temp_project_dir, mocker, mock_templates):
         """Test platform service creation with default values"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
 
         def ask_side_effect(opts, key, prompt, default=None, **kwargs):
             opts[key] = default
@@ -83,11 +83,11 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_template_not_found(self, temp_project_dir, mocker):
         """Test handling of missing template file"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         mock_load = mocker.patch(
-            "cli.commands.init_cmd.platform_service_step.load_template",
+            "solace_agent_mesh.cli.commands.init_cmd.platform_service_step.load_template",
             side_effect=FileNotFoundError("Template not found")
         )
 
@@ -106,7 +106,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_file_write_error(self, temp_project_dir, mocker, mock_templates):
         """Test handling of file write error"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         # Mock open to fail
@@ -130,11 +130,11 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_unexpected_exception(self, temp_project_dir, mocker):
         """Test handling of unexpected exception"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
 
         # Mock load_template to raise exception
         mock_load = mocker.patch(
-            "cli.commands.init_cmd.platform_service_step.load_template",
+            "solace_agent_mesh.cli.commands.init_cmd.platform_service_step.load_template",
             side_effect=Exception("Unexpected error")
         )
 
@@ -160,7 +160,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_interactive_mode(self, temp_project_dir, mocker, mock_templates):
         """Test platform service creation in interactive mode"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "interactive_value"
 
         options = {"add_webui_gateway": True}
@@ -177,7 +177,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_created_with_webui_enabled(self, temp_project_dir, mocker, mock_templates):
         """Test that platform service is created when WebUI Gateway is enabled"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True}
@@ -193,7 +193,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_directory_creation(self, temp_project_dir, mocker, mock_templates):
         """Test that platform service directory is created if it doesn't exist"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True}
@@ -213,7 +213,7 @@ class TestCreatePlatformServiceConfig:
     def test_platform_service_messages_displayed(self, temp_project_dir, mocker, mock_templates):
         """Test that appropriate messages are displayed"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.platform_service_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"add_webui_gateway": True}

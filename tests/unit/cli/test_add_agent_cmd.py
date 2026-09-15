@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from cli.main import cli
+from solace_agent_mesh.cli.main import cli
 
 
 @pytest.fixture
@@ -69,7 +69,7 @@ def test_add_agent_custom_db_url(project_dir, mocker):
     Test that 'add agent' uses the provided --database-url and does not
     attempt a real connection.
     """
-    mocker.patch("cli.commands.add_cmd.agent_cmd.create_engine")
+    mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.create_engine")
     runner = CliRunner()
     custom_db_url = "postgresql://user:pass@host/customdb"
     result = runner.invoke(
@@ -116,7 +116,7 @@ def test_add_agent_db_validation_failure(project_dir, mocker):
     Test that 'add agent' fails if the database URL validation fails.
     """
     mocker.patch(
-        "cli.commands.add_cmd.agent_cmd.create_engine",
+        "solace_agent_mesh.cli.commands.add_cmd.agent_cmd.create_engine",
         side_effect=Exception("Test DB connection error"),
     )
     runner = CliRunner()

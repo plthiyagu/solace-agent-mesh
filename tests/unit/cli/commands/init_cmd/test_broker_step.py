@@ -4,7 +4,7 @@ Unit tests for broker_step.py
 Target: Increase coverage from 32% to 80%+
 """
 import pytest
-from cli.commands.init_cmd.broker_step import broker_setup_step
+from solace_agent_mesh.cli.commands.init_cmd.broker_step import broker_setup_step
 
 
 class TestBrokerSetupStep:
@@ -13,7 +13,7 @@ class TestBrokerSetupStep:
     def test_existing_solace_broker_type_1(self, mocker, mock_shutil_which):
         """Test existing Solace broker with type '1'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         
         # ask_if_not_provided updates options dict in place and returns the value
         def ask_side_effect(opts, key, *args, **kwargs):
@@ -44,7 +44,7 @@ class TestBrokerSetupStep:
     def test_existing_solace_broker_type_solace(self, mocker, mock_shutil_which):
         """Test existing Solace broker with type 'solace'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = [
             "solace",
             "ws://solace.broker:8008",
@@ -64,7 +64,7 @@ class TestBrokerSetupStep:
     def test_container_broker_with_podman(self, mocker, mock_subprocess):
         """Test container broker setup with Podman"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "podman"]
         
         mock_which = mocker.patch("shutil.which")
@@ -91,7 +91,7 @@ class TestBrokerSetupStep:
     def test_container_broker_with_docker(self, mocker, mock_subprocess):
         """Test container broker setup with Docker"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["container", "docker"]
         
         mock_which = mocker.patch("shutil.which")
@@ -115,7 +115,7 @@ class TestBrokerSetupStep:
     def test_container_broker_no_engine_available(self, mocker):
         """Test container broker when neither Podman nor Docker is available"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "2"
         
         mock_which = mocker.patch("shutil.which", return_value=None)
@@ -129,7 +129,7 @@ class TestBrokerSetupStep:
     def test_container_broker_user_declines_execution(self, mocker):
         """Test container broker when user declines container execution"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = [
             "2",
             "podman",
@@ -155,7 +155,7 @@ class TestBrokerSetupStep:
     def test_container_broker_skip_interactive(self, mocker, mock_subprocess):
         """Test container broker in skip interactive mode"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "docker"]
         
         mock_which = mocker.patch("shutil.which")
@@ -177,7 +177,7 @@ class TestBrokerSetupStep:
     def test_container_broker_command_fails(self, mocker):
         """Test container broker when command execution fails"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "podman"]
         
         mock_which = mocker.patch("shutil.which")
@@ -195,7 +195,7 @@ class TestBrokerSetupStep:
     def test_container_broker_exception_during_execution(self, mocker):
         """Test container broker when exception occurs during execution"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "docker"]
         
         mock_which = mocker.patch("shutil.which")
@@ -213,7 +213,7 @@ class TestBrokerSetupStep:
     def test_dev_mode_type_3(self, mocker):
         """Test dev mode with type '3'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "3"
         
         options = {}
@@ -236,7 +236,7 @@ class TestBrokerSetupStep:
     def test_dev_mode_type_dev(self, mocker):
         """Test dev mode with type 'dev'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "dev"
         
         options = {}
@@ -254,7 +254,7 @@ class TestBrokerSetupStep:
     def test_dev_mode_type_dev_broker(self, mocker):
         """Test dev mode with type 'dev_broker'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "dev_broker"
         
         options = {}
@@ -272,7 +272,7 @@ class TestBrokerSetupStep:
     def test_dev_mode_type_dev_mode(self, mocker):
         """Test dev mode with type 'dev_mode'"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "dev_mode"
         
         options = {}
@@ -290,7 +290,7 @@ class TestBrokerSetupStep:
     def test_broker_with_provided_options(self, mocker):
         """Test broker setup with pre-provided options"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "1"
         
         options = {
@@ -311,7 +311,7 @@ class TestBrokerSetupStep:
     def test_container_engine_default_selection(self, mocker, mock_subprocess):
         """Test container engine defaults to podman when both available"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "podman"]
         
         mock_which = mocker.patch("shutil.which")
@@ -335,7 +335,7 @@ class TestBrokerSetupStep:
     def test_container_engine_docker_when_podman_unavailable(self, mocker, mock_subprocess):
         """Test container engine defaults to docker when podman unavailable"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.side_effect = ["2", "docker"]
         
         mock_which = mocker.patch("shutil.which")
@@ -359,7 +359,7 @@ class TestBrokerSetupStep:
     def test_broker_messages_displayed(self, mocker):
         """Test that appropriate messages are displayed"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.broker_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.broker_step.ask_if_not_provided")
         mock_ask.return_value = "dev"
         
         options = {}

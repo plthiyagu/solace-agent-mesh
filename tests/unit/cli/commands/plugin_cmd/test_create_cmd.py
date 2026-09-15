@@ -12,7 +12,7 @@ Tests the plugin creation command including:
 from pathlib import Path
 from click.testing import CliRunner
 
-from cli.commands.plugin_cmd.create_cmd import (
+from solace_agent_mesh.cli.commands.plugin_cmd.create_cmd import (
     ensure_directory_exists,
     replace_placeholders,
     load_plugin_type_config_template,
@@ -329,7 +329,7 @@ class TestCreatePluginCmd:
     def test_create_plugin_official_name_conflict(self, temp_project_dir, mock_templates, mocker):
         """Test creating plugin with name that conflicts with official plugin"""
         mocker.patch(
-            "cli.commands.plugin_cmd.create_cmd.is_official_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.create_cmd.is_official_plugin",
             return_value=True
         )
         

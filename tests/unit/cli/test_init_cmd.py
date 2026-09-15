@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from cli.main import cli
+from solace_agent_mesh.cli.main import cli
 
 
 @pytest.fixture
@@ -50,7 +50,7 @@ def test_init_external_db_url_no_file_creation(project_dir, mocker):
     Test that the init command with a non-sqlite custom database URL does NOT
     create local .db files.
     """
-    mocker.patch("cli.commands.init_cmd.database_step.create_engine")
+    mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_engine")
     runner = CliRunner()
     custom_db_url = "postgresql://user:pass@host/db"
 

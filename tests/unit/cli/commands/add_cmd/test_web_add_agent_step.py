@@ -16,7 +16,7 @@ from unittest.mock import Mock, patch, MagicMock
 import pytest
 from click.testing import CliRunner
 
-from cli.commands.add_cmd.web_add_agent_step import launch_add_agent_web_portal
+from solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step import launch_add_agent_web_portal
 
 
 @pytest.fixture
@@ -40,11 +40,11 @@ def mock_process():
 class TestLaunchAddAgentWebPortal:
     """Tests for launch_add_agent_web_portal function"""
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
     def test_successful_agent_creation(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test successful agent creation through web portal"""
         # Setup mocks
@@ -77,12 +77,12 @@ class TestLaunchAddAgentWebPortal:
         mock_wait.assert_called_once_with("http://127.0.0.1:5002/?config_mode=addAgent")
         mock_browser.assert_called_once_with("http://127.0.0.1:5002/?config_mode=addAgent")
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_server_timeout_error(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of server timeout"""
         # Setup mocks
@@ -107,12 +107,12 @@ class TestLaunchAddAgentWebPortal:
         mock_exit.assert_called_once_with(1)
         mock_browser.assert_not_called()
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_browser_open_exception(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of browser opening exception"""
         # Setup mocks
@@ -139,12 +139,12 @@ class TestLaunchAddAgentWebPortal:
         # Should still try to open browser despite error
         mock_browser.assert_called_once()
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_incomplete_data_from_portal(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of incomplete data from web portal"""
         # Setup mocks
@@ -172,12 +172,12 @@ class TestLaunchAddAgentWebPortal:
         # Verify
         mock_exit.assert_called_once_with(1)
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_shutdown_aborted_status(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of shutdown_aborted status"""
         # Setup mocks
@@ -204,12 +204,12 @@ class TestLaunchAddAgentWebPortal:
         # Verify
         mock_exit.assert_called_once_with(1)
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_no_data_from_portal(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling when no data is received from portal"""
         # Setup mocks
@@ -233,12 +233,12 @@ class TestLaunchAddAgentWebPortal:
         # Verify
         mock_exit.assert_called_once_with(1)
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
-    @patch('cli.commands.add_cmd.web_add_agent_step.sys.exit')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit')
     def test_unknown_status_from_portal(self, mock_exit, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test handling of unknown status from portal"""
         # Setup mocks
@@ -265,11 +265,11 @@ class TestLaunchAddAgentWebPortal:
         # Verify
         mock_exit.assert_called_once_with(1)
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
     def test_process_management(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test proper process management"""
         # Setup mocks
@@ -304,11 +304,11 @@ class TestLaunchAddAgentWebPortal:
         assert call_args[1]['target'].__name__ == 'run_flask'
         assert call_args[1]['args'] == ("127.0.0.1", 5002, shared_data)
 
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
-    @patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
-    @patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server')
-    @patch('cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
-    @patch('cli.commands.add_cmd.web_add_agent_step.click.echo')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.webbrowser.open')
+    @patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.click.echo')
     def test_click_echo_messages(self, mock_echo, mock_browser, mock_wait, mock_process_class, mock_manager_class):
         """Test that appropriate messages are displayed to user"""
         # Setup mocks
@@ -349,10 +349,10 @@ class TestLaunchAddAgentWebPortal:
         # The actual implementation doesn't use cli_options currently
         # but the parameter should be accepted for future extensibility
         
-        with patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager') as mock_manager_class:
-            with patch('cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process'):
-                with patch('cli.commands.add_cmd.web_add_agent_step.wait_for_server', return_value=False):
-                    with patch('cli.commands.add_cmd.web_add_agent_step.sys.exit'):
+        with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Manager') as mock_manager_class:
+            with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.multiprocessing.Process'):
+                with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.wait_for_server', return_value=False):
+                    with patch('solace_agent_mesh.cli.commands.add_cmd.web_add_agent_step.sys.exit'):
                         
                         shared_data = {}
                         manager_mock = Mock()

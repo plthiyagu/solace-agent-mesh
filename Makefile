@@ -56,8 +56,8 @@ test-setup: check-uv
 	@echo "Test environment setup complete!"
 
 # Setup eval environment
-# Note: Uses wheel build instead of editable install because hatchling's editable mode
-# doesn't support force-include for cli/, evaluation/, etc. directories outside src/
+# Note: Uses a wheel build on purpose so evaluations exercise the shipped
+# artifact (editable installs work too now that the CLI lives under src/).
 eval-setup: check-uv
 	@echo "Setting up evaluation test environment..."
 	UV_VENV_CLEAR=1 uv venv --python 3.12

@@ -11,7 +11,7 @@ Tests the plugin component addition command including:
 from pathlib import Path
 from click.testing import CliRunner
 
-from cli.commands.plugin_cmd.add_cmd import (
+from solace_agent_mesh.cli.commands.plugin_cmd.add_cmd import (
     ensure_directory_exists,
     _get_plugin_type_from_pyproject,
     add_plugin_component_cmd,
@@ -128,7 +128,7 @@ class TestAddPluginComponentCmd:
         """Test adding an agent component"""
         # Mock install_plugin to return the mock plugin path
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("mock_plugin", mock_plugin_path)
         )
         
@@ -171,7 +171,7 @@ gateway_id: __COMPONENT_SNAKE_CASE_NAME__
         (gateway_plugin_path / "config.yaml").write_text(config_content)
         
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("gateway_plugin", gateway_plugin_path)
         )
         
@@ -208,7 +208,7 @@ workflow_id: __COMPONENT_SNAKE_CASE_NAME__
         (workflow_plugin_path / "config.yaml").write_text(config_content)
 
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("workflow_plugin", workflow_plugin_path)
         )
 
@@ -250,7 +250,7 @@ component: __COMPONENT_PASCAL_CASE_NAME__
         (custom_plugin_path / "config.yaml").write_text(config_content)
         
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("custom_plugin", custom_plugin_path)
         )
         
@@ -269,7 +269,7 @@ component: __COMPONENT_PASCAL_CASE_NAME__
     def test_add_component_with_custom_install_command(self, temp_project_dir, mock_plugin_path, mocker):
         """Test adding component with custom install command"""
         mock_install = mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("mock_plugin", mock_plugin_path)
         )
         
@@ -296,7 +296,7 @@ component: __COMPONENT_PASCAL_CASE_NAME__
         (plugin_path / "config.yaml").write_text("test: value")
         
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("bad_plugin", plugin_path)
         )
         
@@ -324,7 +324,7 @@ type = "agent"
         (plugin_path / "pyproject.toml").write_text(pyproject_content)
         
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("bad_plugin", plugin_path)
         )
         
@@ -340,7 +340,7 @@ type = "agent"
     def test_add_component_install_failure(self, temp_project_dir, mocker):
         """Test adding component when plugin installation fails"""
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=(None, None)
         )
         
@@ -366,7 +366,7 @@ spaced_cap: __COMPONENT_SPACED_CAPITALIZED_NAME__
         (mock_plugin_path / "config.yaml").write_text(config_content)
         
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("mock_plugin", mock_plugin_path)
         )
         
@@ -389,7 +389,7 @@ spaced_cap: __COMPONENT_SPACED_CAPITALIZED_NAME__
     def test_add_component_from_local_path(self, temp_project_dir, mock_plugin_path, mocker):
         """Test adding component from local plugin path"""
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("mock_plugin", mock_plugin_path)
         )
         
@@ -404,7 +404,7 @@ spaced_cap: __COMPONENT_SPACED_CAPITALIZED_NAME__
     def test_add_component_from_git_url(self, temp_project_dir, mock_plugin_path, mocker):
         """Test adding component from Git URL"""
         mocker.patch(
-            "cli.commands.plugin_cmd.add_cmd.install_plugin",
+            "solace_agent_mesh.cli.commands.plugin_cmd.add_cmd.install_plugin",
             return_value=("mock_plugin", mock_plugin_path)
         )
         

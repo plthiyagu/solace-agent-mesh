@@ -20,13 +20,13 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from cli.commands.add_cmd.agent_cmd import (
+from solace_agent_mesh.cli.commands.add_cmd.agent_cmd import (
     add_agent,
     create_agent_config,
     _write_agent_yaml_from_data,
     _append_to_env_file,
 )
-from config_portal.backend.common import USE_DEFAULT_SHARED_ARTIFACT
+from solace_agent_mesh.config_portal.backend.common import USE_DEFAULT_SHARED_ARTIFACT
 
 
 @pytest.fixture
@@ -84,7 +84,7 @@ inter_agent_communication:
   deny_list: __INTER_AGENT_COMMUNICATION_DENY_LIST__
   timeout: __INTER_AGENT_COMMUNICATION_TIMEOUT__
 """
-    return mocker.patch("cli.commands.add_cmd.agent_cmd.load_template", return_value=template_content)
+    return mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.load_template", return_value=template_content)
 
 
 class TestAppendToEnvFile:
@@ -479,7 +479,7 @@ class TestWriteAgentYamlFromData:
     
     def test_write_agent_yaml_error_handling(self, project_dir, mocker):
         """Test error handling in YAML writing"""
-        mocker.patch("cli.commands.add_cmd.agent_cmd.load_template", side_effect=Exception("Template error"))
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.load_template", side_effect=Exception("Template error"))
 
         config_options = {}
 
@@ -528,7 +528,7 @@ class TestCreateAgentConfig:
         
         try:
             # Mock ask_if_not_provided to return defaults
-            mock_ask = mocker.patch("cli.commands.add_cmd.agent_cmd.ask_if_not_provided")
+            mock_ask = mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.ask_if_not_provided")
             mock_ask.side_effect = lambda opts, key, prompt, default, skip, **kwargs: default
             
             cli_options = {}
@@ -731,7 +731,7 @@ class TestAddAgentCommand:
         
         try:
             # Mock the GUI launch function
-            mock_gui = mocker.patch("cli.commands.add_cmd.agent_cmd.launch_add_agent_web_portal")
+            mock_gui = mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.launch_add_agent_web_portal")
             mock_gui.return_value = ("TestAgent", {"namespace": "test"}, project_dir)
             
             result = runner.invoke(add_agent, ["TestAgent", "--gui"])
@@ -748,7 +748,7 @@ class TestAddAgentCommand:
         
         try:
             # Mock create_agent_config to return False
-            mocker.patch("cli.commands.add_cmd.agent_cmd.create_agent_config", return_value=False)
+            mocker.patch("solace_agent_mesh.cli.commands.add_cmd.agent_cmd.create_agent_config", return_value=False)
             
             result = runner.invoke(add_agent, ["TestAgent", "--skip"])
             

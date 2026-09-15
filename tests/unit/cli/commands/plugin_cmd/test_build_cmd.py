@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest.mock import Mock
 from click.testing import CliRunner
 
-from cli.commands.plugin_cmd.build_cmd import build_plugin_cmd
+from solace_agent_mesh.cli.commands.plugin_cmd.build_cmd import build_plugin_cmd
 
 
 class TestBuildPluginCmd:

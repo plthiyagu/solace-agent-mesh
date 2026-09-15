@@ -11,7 +11,7 @@ Tests the plugin catalog command including:
 from unittest.mock import MagicMock
 from click.testing import CliRunner
 
-from cli.commands.plugin_cmd.catalog_cmd import (
+from solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd import (
     run_flask_plugin_catalog,
     catalog,
 )
@@ -28,10 +28,10 @@ class TestRunFlaskPluginCatalog:
         mock_create_app.return_value = mock_app
         
         mocker.patch.dict('sys.modules', {
-            'config_portal.backend.plugin_catalog_server': MagicMock(
+            'solace_agent_mesh.config_portal.backend.plugin_catalog_server': MagicMock(
                 create_plugin_catalog_app=mock_create_app
             ),
-            'config_portal.backend.plugin_catalog.constants': MagicMock(
+            'solace_agent_mesh.config_portal.backend.plugin_catalog.constants': MagicMock(
                 PLUGIN_CATALOG_TEMP_DIR='~/.sam/plugin_catalog_tmp'
             )
         })
@@ -53,14 +53,14 @@ class TestRunFlaskPluginCatalog:
         original_modules = sys.modules.copy()
         
         # Remove the modules to simulate ImportError
-        sys.modules.pop('config_portal.backend.plugin_catalog_server', None)
-        sys.modules.pop('config_portal.backend.plugin_catalog.constants', None)
+        sys.modules.pop('solace_agent_mesh.config_portal.backend.plugin_catalog_server', None)
+        sys.modules.pop('solace_agent_mesh.config_portal.backend.plugin_catalog.constants', None)
         
         shared_data = {"status": "initializing"}
         
         # Mock the import to fail
         def mock_import(name, *args, **kwargs):
-            if 'config_portal.backend' in name:
+            if 'solace_agent_mesh.config_portal.backend' in name:
                 raise ImportError("Backend not found")
             return original_modules.get(name)
         
@@ -79,10 +79,10 @@ class TestRunFlaskPluginCatalog:
         mock_create_app.return_value = mock_app
         
         mocker.patch.dict('sys.modules', {
-            'config_portal.backend.plugin_catalog_server': MagicMock(
+            'solace_agent_mesh.config_portal.backend.plugin_catalog_server': MagicMock(
                 create_plugin_catalog_app=mock_create_app
             ),
-            'config_portal.backend.plugin_catalog.constants': MagicMock(
+            'solace_agent_mesh.config_portal.backend.plugin_catalog.constants': MagicMock(
                 PLUGIN_CATALOG_TEMP_DIR='~/.sam/plugin_catalog_tmp'
             )
         })
@@ -115,7 +115,7 @@ class TestCatalogCmd:
         mock_webbrowser = mocker.patch("webbrowser.open")
         
         # Mock wait_for_server
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -137,7 +137,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, ["--port", "8080"])
@@ -158,7 +158,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(
@@ -186,7 +186,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(
@@ -212,7 +212,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mock_webbrowser = mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -237,7 +237,7 @@ class TestCatalogCmd:
         
         # Mock wait_for_server to raise exception
         mocker.patch(
-            "cli.commands.plugin_cmd.catalog_cmd.wait_for_server",
+            "solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server",
             side_effect=Exception("Server timeout")
         )
         
@@ -283,7 +283,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -305,7 +305,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -328,7 +328,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -352,7 +352,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])
@@ -387,7 +387,7 @@ class TestCatalogCmd:
         mocker.patch("multiprocessing.Process", return_value=mock_process)
         
         mocker.patch("webbrowser.open")
-        mocker.patch("cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.catalog_cmd.wait_for_server", return_value=True)
         
         runner = CliRunner()
         result = runner.invoke(catalog, [])

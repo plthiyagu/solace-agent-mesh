@@ -4,7 +4,7 @@ Target: Increase coverage from 77% to 80%+
 """
 from pathlib import Path
 
-from cli.commands.init_cmd.directory_step import create_project_directories
+from solace_agent_mesh.cli.commands.init_cmd.directory_step import create_project_directories
 
 
 class TestCreateProjectDirectories:

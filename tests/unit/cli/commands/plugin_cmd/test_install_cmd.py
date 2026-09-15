@@ -19,7 +19,7 @@ import click
 import pytest
 from click.testing import CliRunner
 
-from cli.commands.plugin_cmd.install_cmd import (
+from solace_agent_mesh.cli.commands.plugin_cmd.install_cmd import (
     _check_command_exists,
     _get_plugin_name_from_source_pyproject,
     _run_install,
@@ -153,9 +153,9 @@ name = "test-plugin"
         # Mock subprocess and get_module_path
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = str(plugin_dir)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         module_name, plugin_path = install_plugin(str(plugin_dir))
         
@@ -172,20 +172,20 @@ name = "test-plugin"
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
         # Mock git command check
-        mocker.patch("cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=True)
         
         # Mock pyproject.toml reading in temp directory
         def mock_get_plugin_name(path):
             return "test_plugin"
         mocker.patch(
-            "cli.commands.plugin_cmd.install_cmd._get_plugin_name_from_source_pyproject",
+            "solace_agent_mesh.cli.commands.plugin_cmd.install_cmd._get_plugin_name_from_source_pyproject",
             side_effect=mock_get_plugin_name
         )
         
         # Mock get_module_path and Path.exists
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = "/fake/path/test_plugin"
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         mocker.patch("pathlib.Path.exists", return_value=True)
         
         module_name, plugin_path = install_plugin(git_url)
@@ -200,9 +200,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = "/fake/path/plugin_name"
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         mocker.patch("pathlib.Path.exists", return_value=True)
         
         module_name, plugin_path = install_plugin(git_url)
@@ -218,9 +218,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = "/fake/path/test_plugin"
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         mocker.patch("pathlib.Path.exists", return_value=True)
         
         module_name, plugin_path = install_plugin(str(wheel_file))
@@ -234,14 +234,14 @@ name = "test-plugin"
         official_url = "git+https://github.com/official/plugins.git#subdirectory=official-plugin"
         
         mocker.patch(
-            "cli.commands.plugin_cmd.install_cmd.get_official_plugin_url",
+            "solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url",
             return_value=official_url
         )
         
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = "/fake/path/official_plugin"
         mocker.patch("pathlib.Path.exists", return_value=True)
         
@@ -251,7 +251,7 @@ name = "test-plugin"
     
     def test_install_invalid_installer_command(self, mocker):
         """Test with invalid installer command (missing placeholder)"""
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin("test-plugin", installer_command="pip3 install")
@@ -260,8 +260,8 @@ name = "test-plugin"
         """Test Git installation when git command is not available"""
         git_url = "https://github.com/user/repo.git"
         
-        mocker.patch("cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=False)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=False)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin(git_url)
@@ -270,10 +270,10 @@ name = "test-plugin"
         """Test when git clone fails"""
         git_url = "https://github.com/user/repo.git"
         
-        mocker.patch("cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd._check_command_exists", return_value=True)
         mock_run = mocker.patch("subprocess.run")
         mock_run.side_effect = subprocess.CalledProcessError(1, "git", stderr="Clone failed")
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin(git_url)
@@ -283,7 +283,7 @@ name = "test-plugin"
         plugin_dir = tmp_path / "test_plugin"
         plugin_dir.mkdir()
         
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin(str(plugin_dir))
@@ -293,7 +293,7 @@ name = "test-plugin"
         invalid_file = tmp_path / "not_a_plugin.txt"
         invalid_file.touch()
         
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin(str(invalid_file))
@@ -303,9 +303,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.side_effect = ImportError("Module not found")
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         with pytest.raises(click.exceptions.Abort):
             install_plugin("test-plugin")
@@ -323,9 +323,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = str(plugin_dir)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         module_name, plugin_path = install_plugin(
             str(plugin_dir),
@@ -352,9 +352,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = str(plugin_dir)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         runner = CliRunner()
         result = runner.invoke(install_plugin_cmd, [str(plugin_dir)])
@@ -375,9 +375,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = str(plugin_dir)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         runner = CliRunner()
         result = runner.invoke(
@@ -389,7 +389,7 @@ name = "test-plugin"
     
     def test_cli_install_failure(self, mocker):
         """Test CLI installation failure"""
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         runner = CliRunner()
         result = runner.invoke(install_plugin_cmd, ["nonexistent-plugin"])
@@ -411,9 +411,9 @@ name = "test-plugin"
         mock_run = mocker.patch("subprocess.run")
         mock_run.return_value = Mock(returncode=0, stdout="Success", stderr="")
         
-        mock_get_module = mocker.patch("cli.commands.plugin_cmd.install_cmd.get_module_path")
+        mock_get_module = mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_module_path")
         mock_get_module.return_value = str(plugin_dir)
-        mocker.patch("cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
+        mocker.patch("solace_agent_mesh.cli.commands.plugin_cmd.install_cmd.get_official_plugin_url", return_value=None)
         
         runner = CliRunner()
         result = runner.invoke(install_plugin_cmd, [str(plugin_dir)])

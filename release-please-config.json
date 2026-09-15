@@ -68,7 +68,7 @@
   "packages": {
     ".": {
       "changelog-path": "CHANGELOG.md",
-      "extra-files": ["cli/__init__.py"]
+      "extra-files": ["src/solace_agent_mesh/cli/__init__.py"]
     }
   }
 }

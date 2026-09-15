@@ -10,8 +10,8 @@ Tests the main CLI entry point including:
 """
 from click.testing import CliRunner
 
-from cli.main import cli, main
-from cli import __version__
+from solace_agent_mesh.cli.main import cli, main
+from solace_agent_mesh.cli import __version__
 
 
 class TestCLIGroup:
@@ -81,7 +81,7 @@ class TestVersionOption:
         # Mock importlib.metadata module and its version function
         from importlib.metadata import PackageNotFoundError
         mock_version = mocker.MagicMock(return_value='2.0.0')
-        mocker.patch('cli.main.version', mock_version)
+        mocker.patch('solace_agent_mesh.cli.main.version', mock_version)
 
         runner = CliRunner()
         result = runner.invoke(cli, ['--version'])
@@ -94,7 +94,7 @@ class TestVersionOption:
         # Mock importlib.metadata.version to raise PackageNotFoundError
         from importlib.metadata import PackageNotFoundError
         mock_version = mocker.MagicMock(side_effect=PackageNotFoundError('solace-agent-mesh-enterprise'))
-        mocker.patch('cli.main.version', mock_version)
+        mocker.patch('solace_agent_mesh.cli.main.version', mock_version)
 
         runner = CliRunner()
         result = runner.invoke(cli, ['--version'])
@@ -204,7 +204,7 @@ class TestMainFunction:
     def test_main_calls_cli(self, mocker):
         """Test that main() calls cli()"""
         # Mock the cli function to prevent actual execution
-        mock_cli = mocker.patch('cli.main.cli')
+        mock_cli = mocker.patch('solace_agent_mesh.cli.main.cli')
         
         # Call main
         main()
@@ -218,7 +218,7 @@ class TestMainFunction:
         mocker.patch('sys.argv', ['cli', '--help'])
         
         # Mock cli to capture the call
-        mock_cli = mocker.patch('cli.main.cli')
+        mock_cli = mocker.patch('solace_agent_mesh.cli.main.cli')
         
         # Call main
         main()

@@ -7,19 +7,19 @@ import pytest
 @pytest.fixture
 def mock_click_confirm(mocker):
     """Mock click.confirm for yes/no questions"""
-    return mocker.patch("cli.utils.click.confirm")
+    return mocker.patch("solace_agent_mesh.cli.utils.click.confirm")
 
 
 @pytest.fixture
 def mock_click_prompt(mocker):
     """Mock click.prompt for general questions"""
-    return mocker.patch("cli.utils.click.prompt")
+    return mocker.patch("solace_agent_mesh.cli.utils.click.prompt")
 
 
 @pytest.fixture
 def mock_click_echo(mocker):
     """Mock click.echo for output"""
-    return mocker.patch("cli.utils.click.echo")
+    return mocker.patch("solace_agent_mesh.cli.utils.click.echo")
 
 
 class TestAskYesNoQuestion:
@@ -27,7 +27,7 @@ class TestAskYesNoQuestion:
 
     def test_ask_yes_no_question_default_false(self, mock_click_confirm):
         """Test yes/no question with default False"""
-        from cli.utils import ask_yes_no_question
+        from solace_agent_mesh.cli.utils import ask_yes_no_question
 
         mock_click_confirm.return_value = False
         result = ask_yes_no_question("Continue?", default=False)
@@ -37,7 +37,7 @@ class TestAskYesNoQuestion:
 
     def test_ask_yes_no_question_default_true(self, mock_click_confirm):
         """Test yes/no question with default True"""
-        from cli.utils import ask_yes_no_question
+        from solace_agent_mesh.cli.utils import ask_yes_no_question
 
         mock_click_confirm.return_value = True
         result = ask_yes_no_question("Proceed?", default=True)
@@ -47,7 +47,7 @@ class TestAskYesNoQuestion:
 
     def test_ask_yes_no_question_user_response(self, mock_click_confirm):
         """Test yes/no question with user response"""
-        from cli.utils import ask_yes_no_question
+        from solace_agent_mesh.cli.utils import ask_yes_no_question
 
         mock_click_confirm.return_value = True
         result = ask_yes_no_question("Are you sure?")
@@ -61,7 +61,7 @@ class TestAskQuestion:
 
     def test_ask_question_basic(self, mock_click_prompt):
         """Test basic question asking"""
-        from cli.utils import ask_question
+        from solace_agent_mesh.cli.utils import ask_question
 
         mock_click_prompt.return_value = "test_answer"
         result = ask_question("What is your name?")
@@ -77,7 +77,7 @@ class TestAskQuestion:
 
     def test_ask_question_with_default(self, mock_click_prompt):
         """Test question with default value"""
-        from cli.utils import ask_question
+        from solace_agent_mesh.cli.utils import ask_question
 
         mock_click_prompt.return_value = "default_value"
         result = ask_question("Enter value:", default="default_value")
@@ -93,7 +93,7 @@ class TestAskQuestion:
 
     def test_ask_question_hide_input(self, mock_click_prompt):
         """Test question with hidden input (password)"""
-        from cli.utils import ask_question
+        from solace_agent_mesh.cli.utils import ask_question
 
         mock_click_prompt.return_value = "secret"
         result = ask_question("Enter password:", hide_input=True)
@@ -109,7 +109,7 @@ class TestAskQuestion:
 
     def test_ask_question_with_type(self, mock_click_prompt):
         """Test question with type parameter"""
-        from cli.utils import ask_question
+        from solace_agent_mesh.cli.utils import ask_question
 
         mock_click_prompt.return_value = 42
         result = ask_question("Enter number:", type=int)
@@ -125,7 +125,7 @@ class TestAskQuestion:
 
     def test_ask_question_with_show_choices(self, mock_click_prompt):
         """Test question with show_choices parameter"""
-        from cli.utils import ask_question
+        from solace_agent_mesh.cli.utils import ask_question
 
         mock_click_prompt.return_value = "option1"
         result = ask_question("Select option:", show_choices=True)
@@ -145,7 +145,7 @@ class TestAskIfNotProvided:
 
     def test_key_exists_returns_value(self, mock_click_prompt):
         """Test when key exists in options, returns existing value"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         options = {"name": "existing_value"}
         result = ask_if_not_provided(options, "name", "Enter name:")
@@ -155,7 +155,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_interactive_regular_question(self, mock_click_prompt):
         """Test when key is missing, asks question in interactive mode"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_prompt.return_value = "new_value"
         options = {}
@@ -167,7 +167,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_non_interactive_uses_default(self, mock_click_prompt):
         """Test when key is missing in non-interactive mode, uses default"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         options = {}
         result = ask_if_not_provided(
@@ -180,7 +180,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_bool_question(self, mock_click_confirm):
         """Test when key is missing and is_bool=True"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_confirm.return_value = True
         options = {}
@@ -194,7 +194,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_bool_question_default_false(self, mock_click_confirm):
         """Test bool question with non-bool default falls back to False"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_confirm.return_value = False
         options = {}
@@ -208,7 +208,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_with_choices(self, mock_click_prompt):
         """Test when key is missing with choices parameter"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_prompt.return_value = "option2"
         options = {}
@@ -226,7 +226,7 @@ class TestAskIfNotProvided:
 
     def test_key_missing_with_hide_input(self, mock_click_prompt):
         """Test when key is missing with hide_input parameter"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_prompt.return_value = "secret"
         options = {}
@@ -242,7 +242,7 @@ class TestAskIfNotProvided:
 
     def test_key_none_value_asks_question(self, mock_click_prompt):
         """Test when key exists but value is None, asks question"""
-        from cli.utils import ask_if_not_provided
+        from solace_agent_mesh.cli.utils import ask_if_not_provided
 
         mock_click_prompt.return_value = "new_value"
         options = {"name": None}
@@ -258,7 +258,7 @@ class TestGetCliRootDir:
 
     def test_get_cli_root_dir_returns_path(self):
         """Test that get_cli_root_dir returns a valid Path"""
-        from cli.utils import get_cli_root_dir
+        from solace_agent_mesh.cli.utils import get_cli_root_dir
 
         result = get_cli_root_dir()
 
@@ -267,7 +267,7 @@ class TestGetCliRootDir:
 
     def test_get_cli_root_dir_is_parent_of_cli(self):
         """Test that returned path is parent of cli directory"""
-        from cli.utils import get_cli_root_dir
+        from solace_agent_mesh.cli.utils import get_cli_root_dir
 
         result = get_cli_root_dir()
         cli_dir = result / "cli"
@@ -281,10 +281,10 @@ class TestLoadTemplate:
 
     def test_load_template_success(self, tmp_path, mocker):
         """Test successful template loading"""
-        from cli.utils import load_template
+        from solace_agent_mesh.cli.utils import load_template
 
         # Mock get_cli_root_dir to return tmp_path
-        mocker.patch("cli.utils.get_cli_root_dir", return_value=tmp_path)
+        mocker.patch("solace_agent_mesh.cli.utils.get_cli_root_dir", return_value=tmp_path)
 
         # Create a template file
         templates_dir = tmp_path / "templates"
@@ -298,9 +298,9 @@ class TestLoadTemplate:
 
     def test_load_template_file_not_found(self, tmp_path, mocker):
         """Test FileNotFoundError when template doesn't exist"""
-        from cli.utils import load_template
+        from solace_agent_mesh.cli.utils import load_template
 
-        mocker.patch("cli.utils.get_cli_root_dir", return_value=tmp_path)
+        mocker.patch("solace_agent_mesh.cli.utils.get_cli_root_dir", return_value=tmp_path)
 
         with pytest.raises(FileNotFoundError) as exc_info:
             load_template("nonexistent.txt")
@@ -309,9 +309,9 @@ class TestLoadTemplate:
 
     def test_load_template_with_parser(self, tmp_path, mocker):
         """Test template loading with parser function"""
-        from cli.utils import load_template
+        from solace_agent_mesh.cli.utils import load_template
 
-        mocker.patch("cli.utils.get_cli_root_dir", return_value=tmp_path)
+        mocker.patch("solace_agent_mesh.cli.utils.get_cli_root_dir", return_value=tmp_path)
 
         templates_dir = tmp_path / "templates"
         templates_dir.mkdir()
@@ -327,9 +327,9 @@ class TestLoadTemplate:
 
     def test_load_template_without_parser(self, tmp_path, mocker):
         """Test template loading without parser returns raw content"""
-        from cli.utils import load_template
+        from solace_agent_mesh.cli.utils import load_template
 
-        mocker.patch("cli.utils.get_cli_root_dir", return_value=tmp_path)
+        mocker.patch("solace_agent_mesh.cli.utils.get_cli_root_dir", return_value=tmp_path)
 
         templates_dir = tmp_path / "templates"
         templates_dir.mkdir()
@@ -346,7 +346,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_camel_case(self):
         """Test formatting from camelCase"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("myTestName")
 
@@ -359,7 +359,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_snake_case(self):
         """Test formatting from snake_case"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("my_test_name")
 
@@ -372,7 +372,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_kebab_case(self):
         """Test formatting from kebab-case"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("my-test-name")
 
@@ -385,7 +385,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_spaces(self):
         """Test formatting from spaced name"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("my test name")
 
@@ -398,7 +398,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_acronym(self):
         """Test formatting with acronyms like API"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("APIKey")
 
@@ -411,7 +411,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_all_caps_acronym(self):
         """Test formatting with all caps acronym"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("API")
 
@@ -424,7 +424,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_mixed_separators(self):
         """Test formatting with mixed separators"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("my-test_name")
 
@@ -434,7 +434,7 @@ class TestGetFormattedNames:
 
     def test_get_formatted_names_pascal_case(self):
         """Test formatting from PascalCase"""
-        from cli.utils import get_formatted_names
+        from solace_agent_mesh.cli.utils import get_formatted_names
 
         result = get_formatted_names("MyTestName")
 
@@ -449,11 +449,11 @@ class TestGetModulePath:
 
     def test_get_module_path_valid_module(self, mocker):
         """Test getting path for a valid module"""
-        from cli.utils import get_module_path
+        from solace_agent_mesh.cli.utils import get_module_path
 
         mock_module = MagicMock()
         mock_module.__path__ = ["/path/to/module"]
-        mock_import = mocker.patch("cli.utils.importlib.import_module", return_value=mock_module)
+        mock_import = mocker.patch("solace_agent_mesh.cli.utils.importlib.import_module", return_value=mock_module)
 
         result = get_module_path("test_module")
 
@@ -466,7 +466,7 @@ class TestErrorExit:
 
     def test_error_exit_with_message(self, mock_click_echo):
         """Test error_exit with a message"""
-        from cli.utils import error_exit
+        from solace_agent_mesh.cli.utils import error_exit
 
         with pytest.raises(click.Abort):
             error_exit("Something went wrong")
@@ -478,7 +478,7 @@ class TestErrorExit:
 
     def test_error_exit_without_message(self, mock_click_echo):
         """Test error_exit without a message"""
-        from cli.utils import error_exit
+        from solace_agent_mesh.cli.utils import error_exit
 
         with pytest.raises(click.Abort):
             error_exit()
@@ -491,7 +491,7 @@ class TestGetSamCliHomeDir:
 
     def test_get_sam_cli_home_dir_with_absolute_env_var(self, tmp_path, monkeypatch):
         """Test with SAM_CLI_HOME set to absolute path"""
-        from cli.utils import get_sam_cli_home_dir
+        from solace_agent_mesh.cli.utils import get_sam_cli_home_dir
 
         sam_home = tmp_path / "sam_home"
         monkeypatch.setenv("SAM_CLI_HOME", str(sam_home))
@@ -503,7 +503,7 @@ class TestGetSamCliHomeDir:
 
     def test_get_sam_cli_home_dir_with_relative_env_var(self, tmp_path, monkeypatch):
         """Test with SAM_CLI_HOME set to relative path"""
-        from cli.utils import get_sam_cli_home_dir
+        from solace_agent_mesh.cli.utils import get_sam_cli_home_dir
 
         monkeypatch.chdir(tmp_path)
         monkeypatch.setenv("SAM_CLI_HOME", "relative/sam")
@@ -516,7 +516,7 @@ class TestGetSamCliHomeDir:
 
     def test_get_sam_cli_home_dir_without_env_var(self, tmp_path, monkeypatch):
         """Test without SAM_CLI_HOME env var (uses default .sam)"""
-        from cli.utils import get_sam_cli_home_dir
+        from solace_agent_mesh.cli.utils import get_sam_cli_home_dir
 
         monkeypatch.chdir(tmp_path)
         monkeypatch.delenv("SAM_CLI_HOME", raising=False)
@@ -529,7 +529,7 @@ class TestGetSamCliHomeDir:
 
     def test_get_sam_cli_home_dir_creates_directory(self, tmp_path, monkeypatch):
         """Test that directory is created if it doesn't exist"""
-        from cli.utils import get_sam_cli_home_dir
+        from solace_agent_mesh.cli.utils import get_sam_cli_home_dir
 
         sam_home = tmp_path / "new" / "sam" / "home"
         monkeypatch.setenv("SAM_CLI_HOME", str(sam_home))
@@ -542,12 +542,12 @@ class TestGetSamCliHomeDir:
 
     def test_get_sam_cli_home_dir_oserror_handling(self, tmp_path, monkeypatch, mocker):
         """Test OSError handling when directory creation fails"""
-        from cli.utils import get_sam_cli_home_dir
+        from solace_agent_mesh.cli.utils import get_sam_cli_home_dir
 
         sam_home = tmp_path / "sam_home"
         monkeypatch.setenv("SAM_CLI_HOME", str(sam_home))
 
-        mock_path = mocker.patch("cli.utils.Path")
+        mock_path = mocker.patch("solace_agent_mesh.cli.utils.Path")
         mock_instance = MagicMock()
         mock_instance.mkdir.side_effect = OSError("Permission denied")
         mock_path.return_value = mock_instance
@@ -562,7 +562,7 @@ class TestIndentMultilineString:
 
     def test_indent_multiline_string_default_indent(self):
         """Test with default 4-space indent"""
-        from cli.utils import indent_multiline_string
+        from solace_agent_mesh.cli.utils import indent_multiline_string
 
         text = "line1\nline2\nline3"
         result = indent_multiline_string(text)
@@ -571,7 +571,7 @@ class TestIndentMultilineString:
 
     def test_indent_multiline_string_custom_indent(self):
         """Test with custom indent level"""
-        from cli.utils import indent_multiline_string
+        from solace_agent_mesh.cli.utils import indent_multiline_string
 
         text = "line1\nline2"
         result = indent_multiline_string(text, indent=2)
@@ -580,7 +580,7 @@ class TestIndentMultilineString:
 
     def test_indent_multiline_string_with_initial_indent(self):
         """Test with initial_indent=True"""
-        from cli.utils import indent_multiline_string
+        from solace_agent_mesh.cli.utils import indent_multiline_string
 
         text = "line1\nline2"
         result = indent_multiline_string(text, indent=4, initial_indent=True)
@@ -589,7 +589,7 @@ class TestIndentMultilineString:
 
     def test_indent_multiline_string_single_line(self):
         """Test with single line"""
-        from cli.utils import indent_multiline_string
+        from solace_agent_mesh.cli.utils import indent_multiline_string
 
         text = "single line"
         result = indent_multiline_string(text)
@@ -602,11 +602,11 @@ class TestWaitForServer:
 
     def test_wait_for_server_success(self, mocker):
         """Test successful server connection"""
-        from cli.utils import wait_for_server
+        from solace_agent_mesh.cli.utils import wait_for_server
 
         mock_response = MagicMock()
         mock_response.status_code = 200
-        mock_get = mocker.patch("cli.utils.requests.get", return_value=mock_response)
+        mock_get = mocker.patch("solace_agent_mesh.cli.utils.requests.get", return_value=mock_response)
 
         result = wait_for_server("http://localhost:8000", timeout=5)
 
@@ -615,10 +615,10 @@ class TestWaitForServer:
 
     def test_wait_for_server_timeout(self, mocker):
         """Test server connection timeout"""
-        from cli.utils import wait_for_server
+        from solace_agent_mesh.cli.utils import wait_for_server
 
-        mock_get = mocker.patch("cli.utils.requests.get", side_effect=Exception("Connection refused"))
-        mocker.patch("cli.utils.sleep")
+        mock_get = mocker.patch("solace_agent_mesh.cli.utils.requests.get", side_effect=Exception("Connection refused"))
+        mocker.patch("solace_agent_mesh.cli.utils.sleep")
 
         result = wait_for_server("http://localhost:8000", timeout=1)
 
@@ -631,7 +631,7 @@ class TestCreateAndValidateDatabase:
 
     def test_create_and_validate_database_sqlite(self, tmp_path, mocker, mock_click_echo):
         """Test SQLite database creation and validation"""
-        from cli.utils import create_and_validate_database
+        from solace_agent_mesh.cli.utils import create_and_validate_database
 
         db_file = tmp_path / "test.db"
         database_url = f"sqlite:///{db_file}"
@@ -639,8 +639,8 @@ class TestCreateAndValidateDatabase:
         mock_engine = MagicMock()
         mock_connection = MagicMock()
         mock_engine.connect.return_value.__enter__.return_value = mock_connection
-        mock_create_engine = mocker.patch("cli.utils.create_engine", return_value=mock_engine)
-        mocker.patch("cli.utils.event")
+        mock_create_engine = mocker.patch("solace_agent_mesh.cli.utils.create_engine", return_value=mock_engine)
+        mocker.patch("solace_agent_mesh.cli.utils.event")
 
         result = create_and_validate_database(database_url, "test_db")
 
@@ -651,14 +651,14 @@ class TestCreateAndValidateDatabase:
 
     def test_create_and_validate_database_postgresql_with_psycopg2(self, mocker, mock_click_echo):
         """Test PostgreSQL database with psycopg2 available"""
-        from cli.utils import create_and_validate_database
+        from solace_agent_mesh.cli.utils import create_and_validate_database
 
         database_url = "postgresql://user:pass@localhost/db"
 
         mock_engine = MagicMock()
         mock_connection = MagicMock()
         mock_engine.connect.return_value.__enter__.return_value = mock_connection
-        mock_create_engine = mocker.patch("cli.utils.create_engine", return_value=mock_engine)
+        mock_create_engine = mocker.patch("solace_agent_mesh.cli.utils.create_engine", return_value=mock_engine)
         mocker.patch.dict("sys.modules", {"psycopg2": MagicMock()})
 
         result = create_and_validate_database(database_url, "postgres_db")
@@ -669,7 +669,7 @@ class TestCreateAndValidateDatabase:
 
     def test_create_and_validate_database_postgresql_without_psycopg2(self, mocker, mock_click_echo):
         """Test PostgreSQL database without psycopg2 raises ValueError"""
-        from cli.utils import create_and_validate_database
+        from solace_agent_mesh.cli.utils import create_and_validate_database
 
         database_url = "postgresql://user:pass@localhost/db"
 
@@ -690,14 +690,14 @@ class TestCreateAndValidateDatabase:
 
     def test_create_and_validate_database_generic(self, mocker, mock_click_echo):
         """Test generic database URL"""
-        from cli.utils import create_and_validate_database
+        from solace_agent_mesh.cli.utils import create_and_validate_database
 
         database_url = "mysql://user:pass@localhost/db"
 
         mock_engine = MagicMock()
         mock_connection = MagicMock()
         mock_engine.connect.return_value.__enter__.return_value = mock_connection
-        mock_create_engine = mocker.patch("cli.utils.create_engine", return_value=mock_engine)
+        mock_create_engine = mocker.patch("solace_agent_mesh.cli.utils.create_engine", return_value=mock_engine)
 
         result = create_and_validate_database(database_url, "mysql_db")
 
@@ -707,14 +707,14 @@ class TestCreateAndValidateDatabase:
 
     def test_create_and_validate_database_connection_failure(self, mocker, mock_click_echo):
         """Test database connection failure"""
-        from cli.utils import create_and_validate_database
+        from solace_agent_mesh.cli.utils import create_and_validate_database
 
         database_url = "sqlite:///test.db"
 
         mock_engine = MagicMock()
         mock_engine.connect.side_effect = Exception("Connection failed")
-        mocker.patch("cli.utils.create_engine", return_value=mock_engine)
-        mocker.patch("cli.utils.event")
+        mocker.patch("solace_agent_mesh.cli.utils.create_engine", return_value=mock_engine)
+        mocker.patch("solace_agent_mesh.cli.utils.event")
 
         with pytest.raises(ValueError) as exc_info:
             create_and_validate_database(database_url, "test_db")

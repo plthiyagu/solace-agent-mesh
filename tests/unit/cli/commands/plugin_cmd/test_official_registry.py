@@ -12,7 +12,7 @@ Tests the official plugin registry functions including:
 from unittest.mock import MagicMock, Mock
 import httpx
 
-from cli.commands.plugin_cmd.official_registry import (
+from solace_agent_mesh.cli.commands.plugin_cmd.official_registry import (
     get_official_plugins,
     _is_github_url,
     _fetch_github_plugins,
@@ -251,12 +251,12 @@ class TestGetOfficialPlugins:
     def test_get_official_plugins_github(self, mocker):
         """Test getting plugins from GitHub registry"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
             "https://github.com/user/plugins"
         )
         
         mock_fetch = mocker.patch(
-            "cli.commands.plugin_cmd.official_registry._fetch_github_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry._fetch_github_plugins",
             return_value={"plugin1": "url1", "plugin2": "url2"}
         )
         
@@ -272,7 +272,7 @@ class TestGetOfficialPlugins:
     def test_get_official_plugins_local(self, tmp_path, mocker):
         """Test getting plugins from local registry"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
             str(tmp_path)
         )
         
@@ -288,12 +288,12 @@ class TestGetOfficialPlugins:
     def test_get_official_plugins_cached(self, mocker):
         """Test that results are cached"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.DEFAULT_OFFICIAL_REGISTRY_URL",
             "https://github.com/user/plugins"
         )
         
         mock_fetch = mocker.patch(
-            "cli.commands.plugin_cmd.official_registry._fetch_github_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry._fetch_github_plugins",
             return_value={"plugin1": "url1"}
         )
         
@@ -315,7 +315,7 @@ class TestIsOfficialPlugin:
     def test_is_official_plugin_true(self, mocker):
         """Test with official plugin name"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={"official-plugin": "url"}
         )
         
@@ -324,7 +324,7 @@ class TestIsOfficialPlugin:
     def test_is_official_plugin_false(self, mocker):
         """Test with non-official plugin name"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={"official-plugin": "url"}
         )
         
@@ -333,7 +333,7 @@ class TestIsOfficialPlugin:
     def test_is_official_plugin_empty_registry(self, mocker):
         """Test with empty registry"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         
@@ -346,7 +346,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_success(self, mocker):
         """Test getting URL for official plugin"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={"official-plugin": "git+https://github.com/user/repo#subdirectory=official-plugin"}
         )
         
@@ -357,7 +357,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_not_found(self, mocker):
         """Test getting URL for non-official plugin"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={"official-plugin": "url"}
         )
         
@@ -368,7 +368,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_git_path(self, mocker):
         """Test that git+ paths are not considered official"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         
@@ -379,7 +379,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_http_url(self, mocker):
         """Test that HTTP URLs are not considered official"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         
@@ -390,7 +390,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_local_path(self, mocker):
         """Test that local paths are not considered official"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         
@@ -401,7 +401,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_relative_path(self, mocker):
         """Test that relative paths are not considered official"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         
@@ -412,7 +412,7 @@ class TestGetOfficialPluginUrl:
     def test_get_official_plugin_url_tilde_path(self, mocker):
         """Test that tilde paths are not considered official"""
         mocker.patch(
-            "cli.commands.plugin_cmd.official_registry.get_official_plugins",
+            "solace_agent_mesh.cli.commands.plugin_cmd.official_registry.get_official_plugins",
             return_value={}
         )
         

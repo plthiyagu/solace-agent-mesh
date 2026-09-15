@@ -4,7 +4,7 @@ Target: Increase coverage from 12% to 80%+
 """
 import pytest
 
-from cli.commands.init_cmd.database_step import (
+from solace_agent_mesh.cli.commands.init_cmd.database_step import (
     prompt_for_db_credentials,
     database_setup_step,
 )
@@ -29,7 +29,7 @@ class TestPromptForDbCredentials:
 
     def test_interactive_postgresql_selection(self, mocker):
         """Test interactive mode with PostgreSQL selection"""
-        mock_ask = mocker.patch("cli.commands.init_cmd.database_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.ask_if_not_provided")
         mock_ask.side_effect = [
             "postgresql",  # db_backend choice
             "postgresql://user:pass@localhost:5432/testdb"  # PostgreSQL URL
@@ -43,7 +43,7 @@ class TestPromptForDbCredentials:
 
     def test_interactive_sqlite_selection(self, mocker):
         """Test interactive mode with SQLite selection"""
-        mock_ask = mocker.patch("cli.commands.init_cmd.database_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.ask_if_not_provided")
         mock_ask.return_value = "sqlite"
         
         options = {}
@@ -54,7 +54,7 @@ class TestPromptForDbCredentials:
 
     def test_interactive_with_existing_url_in_options(self, mocker):
         """Test interactive mode when URL already exists in options"""
-        mock_ask = mocker.patch("cli.commands.init_cmd.database_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.ask_if_not_provided")
         mock_ask.side_effect = [
             "postgresql",
             "postgresql://existing:url@host/db"
@@ -83,7 +83,7 @@ class TestDatabaseSetupStep:
     def test_webui_gateway_with_provided_url(self, temp_project_dir, mocker, mock_database_operations):
         """Test WebUI gateway database setup with provided URL"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {
             "add_webui_gateway": True,
@@ -102,7 +102,7 @@ class TestDatabaseSetupStep:
     def test_webui_gateway_default_sqlite(self, temp_project_dir, mocker, mock_database_operations):
         """Test WebUI gateway with default SQLite database"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"add_webui_gateway": True}
         
@@ -122,7 +122,7 @@ class TestDatabaseSetupStep:
     def test_orchestrator_with_provided_url(self, temp_project_dir, mocker, mock_database_operations):
         """Test orchestrator database setup with provided URL"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {
             "use_orchestrator_db": True,
@@ -139,7 +139,7 @@ class TestDatabaseSetupStep:
     def test_orchestrator_default_sqlite_with_agent_name(self, temp_project_dir, mocker, mock_database_operations):
         """Test orchestrator with default SQLite using agent name"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {
             "use_orchestrator_db": True,
@@ -156,12 +156,12 @@ class TestDatabaseSetupStep:
     def test_interactive_user_chooses_own_database(self, temp_project_dir, mocker, mock_database_operations):
         """Test interactive mode when user chooses their own database"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask_yes_no = mocker.patch("cli.commands.init_cmd.database_step.ask_yes_no_question", return_value=True)
+        mock_ask_yes_no = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.ask_yes_no_question", return_value=True)
         mock_prompt = mocker.patch(
-            "cli.commands.init_cmd.database_step.prompt_for_db_credentials",
+            "solace_agent_mesh.cli.commands.init_cmd.database_step.prompt_for_db_credentials",
             return_value="postgresql://custom:db@host/name"
         )
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"add_webui_gateway": True}
         
@@ -176,8 +176,8 @@ class TestDatabaseSetupStep:
     def test_interactive_user_declines_own_database(self, temp_project_dir, mocker, mock_database_operations):
         """Test interactive mode when user declines their own database"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask_yes_no = mocker.patch("cli.commands.init_cmd.database_step.ask_yes_no_question", return_value=False)
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_ask_yes_no = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.ask_yes_no_question", return_value=False)
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"add_webui_gateway": True}
         
@@ -191,7 +191,7 @@ class TestDatabaseSetupStep:
     def test_both_databases_configured(self, temp_project_dir, mocker, mock_database_operations):
         """Test when both WebUI gateway and orchestrator databases are configured"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {
             "add_webui_gateway": True,
@@ -209,7 +209,7 @@ class TestDatabaseSetupStep:
     def test_database_validation_called_correctly(self, temp_project_dir, mocker, mock_database_operations):
         """Test that database validation is called with correct parameters"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {
             "add_webui_gateway": True,
@@ -226,7 +226,7 @@ class TestDatabaseSetupStep:
     def test_data_directory_creation(self, temp_project_dir, mocker, mock_database_operations):
         """Test that data directory is created for SQLite databases"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"add_webui_gateway": True}
         data_dir = temp_project_dir / "data"
@@ -242,7 +242,7 @@ class TestDatabaseSetupStep:
     def test_orchestrator_without_agent_name_uses_default(self, temp_project_dir, mocker, mock_database_operations):
         """Test orchestrator database uses default filename when agent_name is missing"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"use_orchestrator_db": True}
         
@@ -254,7 +254,7 @@ class TestDatabaseSetupStep:
     def test_skip_interactive_with_no_url_uses_default_sqlite(self, temp_project_dir, mocker, mock_database_operations):
         """Test skip interactive mode without URL uses default SQLite"""
         mock_echo = mocker.patch("click.echo")
-        mock_validate = mocker.patch("cli.commands.init_cmd.database_step.create_and_validate_database")
+        mock_validate = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.database_step.create_and_validate_database")
         
         options = {"add_webui_gateway": True}
         

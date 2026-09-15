@@ -115,7 +115,7 @@ session_service:__SESSION_SERVICE__
         return content
     
     return mocker.patch(
-        "cli.utils.load_template",
+        "solace_agent_mesh.cli.utils.load_template",
         side_effect=load_template_side_effect
     )
 
@@ -124,8 +124,8 @@ session_service:__SESSION_SERVICE__
 def mock_database_operations(mocker):
     """Mock database creation and validation"""
     mock_engine = MagicMock()
-    mocker.patch("cli.utils.create_engine", return_value=mock_engine)
-    mocker.patch("cli.utils.event")
+    mocker.patch("solace_agent_mesh.cli.utils.create_engine", return_value=mock_engine)
+    mocker.patch("solace_agent_mesh.cli.utils.event")
     return mock_engine
 
 
@@ -157,7 +157,7 @@ def mock_webbrowser(mocker):
 @pytest.fixture
 def mock_wait_for_server(mocker):
     """Mock wait_for_server utility"""
-    return mocker.patch("cli.commands.init_cmd.web_init_step.wait_for_server", return_value=True)
+    return mocker.patch("solace_agent_mesh.cli.commands.init_cmd.web_init_step.wait_for_server", return_value=True)
 
 
 @pytest.fixture
@@ -186,6 +186,6 @@ def mock_get_formatted_names(mocker):
             "PASCAL_CASE_NAME": "".join(word.capitalize() for word in name.replace("-", "_").split("_")),
         }
     return mocker.patch(
-        "cli.commands.init_cmd.orchestrator_step.get_formatted_names",
+        "solace_agent_mesh.cli.commands.init_cmd.orchestrator_step.get_formatted_names",
         side_effect=formatted_names_side_effect
     )

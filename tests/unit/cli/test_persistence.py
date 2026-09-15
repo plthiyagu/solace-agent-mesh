@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from click.testing import CliRunner
 
-from cli.main import cli
+from solace_agent_mesh.cli.main import cli
 
 
 @pytest.fixture

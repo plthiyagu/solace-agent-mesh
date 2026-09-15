@@ -2,7 +2,7 @@
 Unit tests for env_step.py
 Target: Increase coverage from 83% to 80%+ (already above target, adding comprehensive tests)
 """
-from cli.commands.init_cmd.env_step import create_env_file
+from solace_agent_mesh.cli.commands.init_cmd.env_step import create_env_file
 
 
 class TestCreateEnvFile:
@@ -11,7 +11,7 @@ class TestCreateEnvFile:
     def test_successful_env_file_creation(self, temp_project_dir, mocker):
         """Test successful creation of .env file"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test_value"
         
         options = {
@@ -34,7 +34,7 @@ class TestCreateEnvFile:
     def test_namespace_trailing_slash_added(self, temp_project_dir, mocker):
         """Test that trailing slash is added to namespace if missing"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         options = {
@@ -50,7 +50,7 @@ class TestCreateEnvFile:
     def test_namespace_with_existing_trailing_slash(self, temp_project_dir, mocker):
         """Test that namespace with trailing slash is not modified"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         options = {
@@ -67,7 +67,7 @@ class TestCreateEnvFile:
     def test_env_file_with_all_parameters(self, temp_project_dir, mocker):
         """Test .env file creation with all parameters"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {
@@ -110,7 +110,7 @@ class TestCreateEnvFile:
     def test_env_file_creation_failure(self, temp_project_dir, mocker):
         """Test handling of .env file creation failure"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
         
         # Mock open to fail
@@ -129,7 +129,7 @@ class TestCreateEnvFile:
     def test_skip_interactive_uses_provided_values(self, temp_project_dir, mocker):
         """Test that skip interactive mode uses provided values"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
 
         options = {
             "llm_provider": "openai",
@@ -147,7 +147,7 @@ class TestCreateEnvFile:
     def test_interactive_mode_prompts_for_values(self, temp_project_dir, mocker):
         """Test that interactive mode prompts for missing values"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "prompted_value"
         
         options = {}
@@ -160,7 +160,7 @@ class TestCreateEnvFile:
     def test_none_values_excluded_from_env(self, temp_project_dir, mocker):
         """Test that None values are excluded from .env file"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = None
 
         options = {
@@ -186,7 +186,7 @@ class TestCreateEnvFile:
             return default
         
         mock_ask = mocker.patch(
-            "cli.commands.init_cmd.env_step.ask_if_not_provided",
+            "solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided",
             side_effect=mock_ask_side_effect
         )
         
@@ -200,7 +200,7 @@ class TestCreateEnvFile:
     def test_messages_displayed(self, temp_project_dir, mocker):
         """Test that appropriate messages are displayed"""
         mock_echo = mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"llm_service_endpoint": "https://api.test.com"}
@@ -214,7 +214,7 @@ class TestCreateEnvFile:
     def test_no_provider_skips_llm_env_vars(self, temp_project_dir, mocker):
         """Test that LLM env vars are not written when no provider is selected"""
         mocker.patch("click.echo")
-        mock_ask = mocker.patch("cli.commands.init_cmd.env_step.ask_if_not_provided")
+        mock_ask = mocker.patch("solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided")
         mock_ask.return_value = "test"
 
         options = {"llm_provider": "", "namespace": "test/"}
@@ -242,7 +242,7 @@ class TestCreateEnvFile:
             return "test_value"
 
         mocker.patch(
-            "cli.commands.init_cmd.env_step.ask_if_not_provided",
+            "solace_agent_mesh.cli.commands.init_cmd.env_step.ask_if_not_provided",
             side_effect=ask_side_effect,
         )
 

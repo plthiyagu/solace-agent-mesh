@@ -21,10 +21,10 @@ from importlib import import_module
 import pytest
 
 # Import the specific function we're testing by loading the module directly
-gateway_cmd_module = import_module('cli.commands.add_cmd.gateway_cmd')
+gateway_cmd_module = import_module('solace_agent_mesh.cli.commands.add_cmd.gateway_cmd')
 create_gateway_files = gateway_cmd_module.create_gateway_files
 
-from config_portal.backend.common import GATEWAY_DEFAULTS, USE_DEFAULT_SHARED_ARTIFACT
+from solace_agent_mesh.config_portal.backend.common import GATEWAY_DEFAULTS, USE_DEFAULT_SHARED_ARTIFACT
 
 
 @pytest.fixture
@@ -81,7 +81,7 @@ __RESPONSE_FORMAT__
         return ""
     
     return mocker.patch(
-        "cli.commands.add_cmd.gateway_cmd.load_template",
+        "solace_agent_mesh.cli.commands.add_cmd.gateway_cmd.load_template",
         side_effect=load_template_side_effect
     )
 
@@ -287,8 +287,8 @@ class TestOverwriteConfirmation:
         (existing_dir / "app.py").write_text("old content")
         
         # Mock click.confirm to return True and click.edit to avoid editor
-        mocker.patch("cli.commands.add_cmd.gateway_cmd.click.confirm", return_value=True)
-        mocker.patch("cli.commands.add_cmd.gateway_cmd.click.edit", side_effect=[
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.gateway_cmd.click.confirm", return_value=True)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.gateway_cmd.click.edit", side_effect=[
             GATEWAY_DEFAULTS["system_purpose"],
             GATEWAY_DEFAULTS["response_format"]
         ])
@@ -317,7 +317,7 @@ class TestOverwriteConfirmation:
         (existing_dir / "app.py").write_text("old content")
         
         # Mock click.confirm to return False (cancels after prompts)
-        mocker.patch("cli.commands.add_cmd.gateway_cmd.click.confirm", return_value=False)
+        mocker.patch("solace_agent_mesh.cli.commands.add_cmd.gateway_cmd.click.confirm", return_value=False)
         
         # Provide system_purpose and response_format to avoid editor prompts
         cli_options = {
@@ -371,7 +371,7 @@ class TestErrorHandling:
     def test_missing_template_file(self, project_dir, mocker):
         """Test error handling when template file is missing"""
         mocker.patch(
-            "cli.commands.add_cmd.gateway_cmd.load_template",
+            "solace_agent_mesh.cli.commands.add_cmd.gateway_cmd.load_template",
             side_effect=FileNotFoundError("Template file not found")
         )
         
@@ -423,7 +423,7 @@ class TestInteractiveMode:
     def test_interactive_mode_with_prompts(self, project_dir, mock_templates, mocker):
         """Test interactive mode prompts for missing options"""
         # Mock user inputs
-        mocker.patch("cli.utils.ask_question", side_effect=[
+        mocker.patch("solace_agent_mesh.cli.utils.ask_question", side_effect=[
             "interactive/namespace",  # namespace
             "interactive-gw-01",      # gateway_id
             USE_DEFAULT_SHARED_ARTIFACT,  # artifact_service_type
@@ -452,7 +452,7 @@ class TestInteractiveMode:
     
     def test_interactive_mode_editor_cancelled(self, project_dir, mock_templates, mocker):
         """Test interactive mode when editor is cancelled (returns None)"""
-        mocker.patch("cli.utils.ask_question", side_effect=[
+        mocker.patch("solace_agent_mesh.cli.utils.ask_question", side_effect=[
             "test/namespace",
             "test-gw-01",
             USE_DEFAULT_SHARED_ARTIFACT,
@@ -479,7 +479,7 @@ class TestInteractiveMode:
     
     def test_interactive_filesystem_artifact_prompts(self, project_dir, mock_templates, mocker):
         """Test interactive prompts for filesystem artifact service"""
-        mocker.patch("cli.utils.ask_question", side_effect=[
+        mocker.patch("solace_agent_mesh.cli.utils.ask_question", side_effect=[
             "test/namespace",
             "fs-gw-01",
             "filesystem",  # artifact_service_type
