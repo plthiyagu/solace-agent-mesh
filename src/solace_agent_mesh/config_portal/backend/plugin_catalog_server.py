@@ -4,6 +4,7 @@ import shutil
 import logging
 from pathlib import Path
 
+from .common import resolve_frontend_static_dir
 from .plugin_catalog.scraper import PluginScraper
 from .plugin_catalog.registry_manager import RegistryManager
 from .plugin_catalog.constants import PLUGIN_CATALOG_TEMP_DIR
@@ -21,9 +22,9 @@ plugin_scraper = PluginScraper()
 
 def create_plugin_catalog_app(shared_config=None):
     current_dir = Path(__file__).parent
-    static_folder_path = (
-        Path(__file__).resolve().parent.parent / "frontend" / "static" / "client"
-    )
+    # Works in both install layouts — wheel sibling first, repo checkout as
+    # fallback (see resolve_frontend_static_dir).
+    static_folder_path = resolve_frontend_static_dir()
     app = Flask(__name__, static_folder=str(static_folder_path), static_url_path="")
     app.config["SHARED_CONFIG"] = shared_config
 

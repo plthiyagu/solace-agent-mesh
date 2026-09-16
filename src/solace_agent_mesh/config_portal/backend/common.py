@@ -1,4 +1,28 @@
 import sys
+from pathlib import Path
+
+
+def resolve_frontend_static_dir() -> Path:
+    """Locate the built portal frontend in either install layout.
+
+    Installed layout first: the wheel grafts the built frontend in as a
+    sibling of this package (solace_agent_mesh/config_portal/frontend). In a
+    source checkout the frontend project stays at the repository's top-level
+    config_portal/frontend (it is a JS build, not a Python package), so fall
+    back to it relative to the repo root. When neither exists (frontend not
+    built yet), the installed path is returned so errors name the canonical
+    location.
+    """
+    installed = Path(__file__).resolve().parent.parent / "frontend" / "static" / "client"
+    if installed.is_dir():
+        return installed
+    repo_checkout = (
+        Path(__file__).resolve().parents[4] / "config_portal" / "frontend" / "static" / "client"
+    )
+    if repo_checkout.is_dir():
+        return repo_checkout
+    return installed
+
 
 INIT_DEFAULT = {
     "namespace": "default_namespace",

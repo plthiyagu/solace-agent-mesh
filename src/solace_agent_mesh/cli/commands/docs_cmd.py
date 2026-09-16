@@ -36,7 +36,9 @@ def docs(port: int):
     Starts a web server to view the documentation.
     """
     prod_docs_dir = os.path.join(get_cli_root_dir(), 'assets', 'docs')
-    dev_docs_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'build')
+    # Source checkout: the docs project lives at the repository top level,
+    # four levels above this file (src/solace_agent_mesh/cli/commands).
+    dev_docs_dir = os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'docs', 'build')
 
     if os.path.exists(prod_docs_dir):
         docs_dir = prod_docs_dir

@@ -163,6 +163,10 @@ class ProcessManager:
         command = [sys.executable, "-m", "solace_ai_connector.main", *agent_files]
 
         log.info("Starting Solace AI Connector as a subprocess...")
+        # The subprocess cwd is the evaluation package directory — the same
+        # directory it has always been (EVALUATION_DIR is `evaluation/shared`,
+        # so `.parent` is `evaluation/`). It moved intact with the src/
+        # relocation, and installed layouts are untouched.
         project_root = Path(EVALUATION_DIR).parent.resolve()
 
         self.process = subprocess.Popen(

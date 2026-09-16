@@ -9,6 +9,7 @@ from .common import (
     AGENT_DEFAULTS,
     GATEWAY_DEFAULTS,
     USE_DEFAULT_SHARED_ARTIFACT,
+    resolve_frontend_static_dir,
 )
 from solace_agent_mesh.cli.utils import get_formatted_names
 
@@ -607,24 +608,9 @@ def create_app(shared_config=None):
         os._exit(0)
         return response
 
-    # Installed layout first: the wheel grafts the built frontend in as a
-    # sibling of this package (solace_agent_mesh/config_portal/frontend).
-    # In a source checkout the frontend project stays at the repository's
-    # top-level config_portal/frontend (it is a JS build, not a Python
-    # package), so fall back to it relative to the repo root.
-    frontend_static_dir = (
-        Path(__file__).resolve().parent.parent / "frontend" / "static" / "client"
-    )
-    if not frontend_static_dir.is_dir():
-        repo_checkout_static = (
-            Path(__file__).resolve().parents[4]
-            / "config_portal"
-            / "frontend"
-            / "static"
-            / "client"
-        )
-        if repo_checkout_static.is_dir():
-            frontend_static_dir = repo_checkout_static
+    # Works in both install layouts — wheel sibling first, repo checkout as
+    # fallback (see resolve_frontend_static_dir).
+    frontend_static_dir = resolve_frontend_static_dir()
 
     @app.route("/assets/<path:path>")
     def serve_assets(path):

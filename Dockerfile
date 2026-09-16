@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/root/.npm \
     npm ci
 COPY docs ./
 COPY README.md ../README.md
-COPY cli/__init__.py ../cli/__init__.py
+COPY src/solace_agent_mesh/cli/__init__.py ../src/solace_agent_mesh/cli/__init__.py
 RUN npm run build
 
 # Stage to extract Node.js binaries for use in Python stages
@@ -112,12 +112,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
         --no-install-project
 
 # Copy Python source code and essential files (skip UI source code)
+# The CLI, evaluation, templates and portal backend live under src/ now, so
+# the src copy carries them; only the built frontend assets are grafted in.
 COPY src ./src
-COPY cli ./cli
-COPY evaluation ./evaluation
-COPY templates ./templates
-COPY config_portal/__init__.py ./config_portal/__init__.py
-COPY config_portal/backend ./config_portal/backend
 COPY .github/helper_scripts ./.github/helper_scripts
 
 # Copy pre-built UI static assets from UI build stages
